@@ -128,6 +128,17 @@
       background: #17EA95;
     }
 
+    #quiz-description-form__submit {
+      position: absolute; 
+      bottom: 0; 
+      left: 50%; 
+      transform: translateX(-50%)
+    }
+
+    #quiz-description-form__submit:disabled {
+      display: none;
+    }
+
     /* Question section */
 
     .question {
@@ -221,7 +232,7 @@
         </div>
       </div>
 
-      <div class="quiz-description">
+      <div class="quiz-description" oninput="handleQuizDescriptionChange()">
         <div class="mdc-chip-set hashtag-set">
           <div class="mdc-chip hashtag">
             <div class="mdc-chip__text">#CULTURE</div>
@@ -230,14 +241,20 @@
             <div class="mdc-chip__text">#MALAYSIA</div>
           </div>
         </div>
-        <h1>How well do you know your ballons?</h1>
-        <p>A short quiz to test how well you know air balloons</h3>
+        <h1 class="quiz-description__title" contenteditable="true">How well do you know your ballons?</h1>
+        <p class="quiz-description__details" contenteditable="true">A short quiz to test how well you know air balloons</h3>
       </div>
 
       <footer class="footer">
         <strong>BY ISAAC NEWTON</strong>
         <p>OCT 23, 2018</p>
       </footer>
+
+      <form action="save-quiz-details.php" method="POST">
+        <input type="text" id="quiz-title" style='display: none;' name="quiz-title" />
+        <input type="text" id="quiz-details" style='display: none;' name="quiz-details" />
+        <input type="submit" id="quiz-description-form__submit" class="mdc-button mdc-button--unelevated" data-mdc-auto-init="MDCRipple" disabled />
+      </form>
     </aside>
 
     <main class="partition-item partition-item-6" id="right-partition-item">
@@ -378,6 +395,20 @@
 
     function getTotalQuestionsCount() {
       return document.querySelectorAll('.question').length;
+    }
+
+    function handleQuizDescriptionChange(event) {
+      const quizDescriptionTitle = document.querySelector('.quiz-description__title');
+      const quizDescriptionDetails = document.querySelector('.quiz-description__details');
+
+      const quizTitleInput = document.querySelector('#quiz-title');
+      const quizDetailsInput = document.querySelector('#quiz-details');
+
+      quizTitleInput.value = quizDescriptionTitle.innerText;
+      quizDetailsInput.value = quizDescriptionDetails.innerText;
+
+      // enable submit button
+      document.querySelector('#quiz-description-form__submit').disabled = false;
     }
   </script>
 
