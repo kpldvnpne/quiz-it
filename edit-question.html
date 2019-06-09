@@ -163,18 +163,24 @@
       width: 100%;
     }
 
+    .question-option-item__add {
+      width: 100%;
+      border-style: dashed;
+      background: none;
+    }
+
     .question__save {
       margin-top: 0;
-      --mdc-theme-primary: #B1AFBC;
       height: 50px;
       width: 100%;
       font-weight: bold;
-    }
-
-    .question__save--activated {
       --mdc-theme-primary: #00F78E;
       --mdc-theme-on-primary: black;
       color: black;
+    }
+
+    .question__save:disabled {
+    --mdc-theme-primary: #B1AFBC;
     }
 
   </style>
@@ -241,26 +247,26 @@
           <li class="question-option-item" tabindex="0">
             <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
               <input type="text" id="my-text-field" class="mdc-text-field__input" value="Yes, Obviously">
-              <label class="mdc-floating-label" for="my-text-field">Option</label>
               <div class="mdc-line-ripple"></div>
             </div>
           </li>
           <li class="question-option-item">
             <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
               <input type="text" id="my-text-field" class="mdc-text-field__input" value="No C'mon">
-              <label class="mdc-floating-label" for="my-text-field">Option</label>
               <div class="mdc-line-ripple"></div>
             </div>
           </li>
           <li class="question-option-item">
             <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
               <input type="text" id="my-text-field" class="mdc-text-field__input" value="Not sure. Really, don't care.">
-              <label class="mdc-floating-label" for="my-text-field">Option</label>
               <div class="mdc-line-ripple"></div>
             </div>
           </li>
+          <li class="question-option-item">
+            <button data-mdc-auto-init="MDCRipple" class="mdc-button mdc-button--outlined material-icons question-option-item__add">add</button>
+          </li>
         </ul>
-        <button  class="mdc-button mdc-button--unelevated question__save" data-mdc-auto-init="MDCRipple">Save</button>
+        <button  class="mdc-button mdc-button--unelevated question__save" data-mdc-auto-init="MDCRipple" disabled>Save</button>
       </div>
     </main>
   </div> 
