@@ -160,7 +160,7 @@
     }
 
     .question-option-item .mdc-text-field {
-      width: 100%;
+      width: 90%;
     }
 
     .question-option-item__add {
@@ -259,7 +259,10 @@
             </div>
           </li>
           <li class="question-option-item">
-            <button data-mdc-auto-init="MDCRipple" class="mdc-button mdc-button--outlined material-icons question-option-item__add">add</button>
+            <button data-mdc-auto-init="MDCRipple" 
+              class="mdc-button mdc-button--outlined material-icons question-option-item__add"
+              onclick="addOption(event)"
+              >add</button>
           </li>
         </ul>
         <button  class="mdc-button mdc-button--unelevated question__save" data-mdc-auto-init="MDCRipple" disabled>Save</button>
@@ -271,22 +274,23 @@
     // Auto Init
     window.mdc.autoInit();
 
-    const MDCLinearProgress = mdc.linearProgress.MDCLinearProgress;
-    const MDCRipple = mdc.ripple.MDCRipple;
-
-    const progressBar = new MDCLinearProgress(document.querySelector('.mdc-linear-progress'));
-    progressBar.progress = 0.2;
-
-    initializeBehaviour();
-
-    function initializeBehaviour() {
+    function addOption(event) {
+      const optionTemplate = `
+        <li class="question-option-item">
+          <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+            <input type="text" id="my-text-field" class="mdc-text-field__input">
+            <div class="mdc-line-ripple"></div>
+          </div>
+        </li>
+      `;
+      let newOptionElem = createElementFromHtml(optionTemplate);
+      event.target.parentNode.insertBefore(newOptionElem, event.target);
     }
 
-    function applyBehaviourToAllElements(selector, behaviour) {
-      const elements = document.querySelectorAll(selector);
-      for (let i = 0; i < elements.length; ++i) {
-        behaviour(elements[i]);
-      }
+    function createElementFromHtml(html) {
+      var template = document.createElement('template');
+      template.innerHTML = html.trim();
+      return template.content.firstChild;
     }
 
   </script>
