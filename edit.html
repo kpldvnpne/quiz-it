@@ -127,10 +127,39 @@
       height: 70%;
     }
 
+    .hashtag-set {
+      position: relative;
+    }
+
     .hashtag.mdc-chip {
       background-color: rgb(255, 255, 255, 0.5);
-      /* opacity: 0.5; */
       text-shadow: none;
+    }
+
+    .hashtag--add {
+      margin: 0 !important;
+      z-index: 400;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .hashtag--add__input {
+      width: 0;
+      color: transparent;
+
+      transition: width .1s ease-in;
+    }
+
+    .hashtag--add:hover {
+      background: white;
+    }
+
+    .hashtag--add:hover .hashtag--add__input {
+      position: relative;
+      width: auto;
+      color: initial;
     }
 
     .quiz-description, .footer {
@@ -256,14 +285,21 @@
       </div>
 
       <div class="quiz-description" oninput="handleQuizDescriptionChange()">
-        <div class="mdc-chip-set hashtag-set">
-          <div class="mdc-chip hashtag">
+        <div class="mdc-chip-set mdc-chip-set--input hashtag-set" data-mdc-auto-init="MDCChipSet">
+          <div class="mdc-chip hashtag hashtag--add">
+            <i class="material-icons mdc-chip__icon mdc-chip__icon--leading" role="button">add</i>
+            <div class="mdc-chip__text hashtag--add__input" contenteditable="true">New Hashtag</div>
+          </div>
+          <div class="mdc-chip hashtag" tabindex="0">
             <div class="mdc-chip__text">#CULTURE</div>
+            <i class="material-icons mdc-chip__icon mdc-chip__icon--trailing" role="button">cancel</i>
           </div>
           <div class="mdc-chip hashtag">
             <div class="mdc-chip__text">#MALAYSIA</div>
+            <i class="material-icons mdc-chip__icon mdc-chip__icon--trailing" role="button">cancel</i>
           </div>
         </div>
+
         <h1 class="quiz-description__title" contenteditable="true">How well do you know your ballons?</h1>
         <p class="quiz-description__details" contenteditable="true">A short quiz to test how well you know air balloons</h3>
       </div>
