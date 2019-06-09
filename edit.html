@@ -131,11 +131,29 @@
     /* Question section */
 
     .question {
+      position: relative;
       margin: 18% auto auto 15%;
       margin-bottom: 5%;
       width: 60%;
       max-width: 500px;
       min-width: 300px;
+    }
+
+    .question-modify {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .question-modify__button {
+      height: 38px;
+      width: 38px;
+      border-radius: 50%;
+    }
+
+    .question:hover .question-modify {
+      display: block;
     }
 
     .question__number {
@@ -230,6 +248,10 @@
 
     <main class="partition-item partition-item-6" id="right-partition-item">
       <div class="question">
+        <div class="question-modify">
+          <button class="mdc-button material-icons question-modify__button" data-mdc-auto-init="MDCRipple">edit</button>
+          <button class="mdc-button material-icons question-modify__button" data-mdc-auto-init="MDCRipple">delete</button>
+        </div>
         <label class="question__number">Question 1</label>
         <h2 class="question__title">Do you think air balloons are cool enough for 2018?</h2>
         <ul class="mdc-list question-option" data-mdc-auto-init="MDCList">
@@ -247,6 +269,10 @@
       </div>
 
       <div class="question">
+        <div class="question-modify">
+          <button class="mdc-button material-icons question-modify__button" data-mdc-auto-init="MDCRipple">edit</button>
+          <button class="mdc-button material-icons question-modify__button" data-mdc-auto-init="MDCRipple">delete</button>
+        </div>
         <label class="question__number">Question 2</label>
         <h2 class="question__title">Which of these show the trendy lock pattern?</h2>
         <ul class="mdc-list question-option" data-mdc-auto-init="MDCList">
@@ -264,6 +290,10 @@
       </div>
 
       <div class="question">
+        <div class="question-modify">
+          <button class="mdc-button material-icons question-modify__button" data-mdc-auto-init="MDCRipple">edit</button>
+          <button class="mdc-button material-icons question-modify__button" data-mdc-auto-init="MDCRipple">delete</button>
+        </div>
         <label class="question__number">Question 3</label>
         <h2 class="question__title">How doews a hot air balloon fly?</h2>
         <ul class="mdc-list question-option" data-mdc-auto-init="MDCList">
