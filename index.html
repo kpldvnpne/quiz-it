@@ -50,7 +50,6 @@
       clear: both;
     }
 
-    /* Uncomment after you finish doing other things */
     @media only screen and (max-width: 768px) {
       body {
         border: none;
@@ -301,7 +300,7 @@
       applyBehaviourToAllElements('.question__next', function (element) {
         element.addEventListener('click', function (event) {
           const nextElementSibling = event.target.parentNode.nextElementSibling;
-          nextElementSibling && nextElementSibling.scrollIntoView({ behavior: 'smooth' });
+          nextElementSibling && nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'center' });
         })
       })
 
