@@ -59,6 +59,11 @@
       [class*="partition-item-"] {
         width: 100%;
       }
+
+      .right-partition-item {
+        height:fit-content;
+        overflow-y: auto !important;
+      }
     }
 
     .left-partition-item {
@@ -117,6 +122,7 @@
 
     .question {
       margin: 18% auto auto 15%;
+      margin-bottom: 5%;
       width: 60%;
       max-width: 500px;
       min-width: 300px;
@@ -288,6 +294,14 @@
       applyBehaviourToAllElements('.question', function (element) {
         element.addEventListener('MDCList:action', function (event) {
           event.target.nextElementSibling.classList.add('question__next--activated');
+        })
+      })
+
+      // make all button scroll to next question on finish
+      applyBehaviourToAllElements('.question__next', function (element) {
+        element.addEventListener('click', function (event) {
+          const nextElementSibling = event.target.parentNode.nextElementSibling;
+          nextElementSibling && nextElementSibling.scrollIntoView({ behavior: 'smooth' });
         })
       })
     }
