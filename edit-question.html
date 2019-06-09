@@ -155,12 +155,15 @@
     }
 
     .question-option-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
       background-color: rgb(245, 249, 249);
       margin-bottom: 5px;
     }
 
     .question-option-item .mdc-text-field {
-      width: 90%;
+      flex: auto;
     }
 
     .question-option-item__add {
@@ -169,10 +172,18 @@
       background: none;
     }
 
+    .question-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .question-actions>button {
+      margin-left: 10px;
+    }
+
     .question__save {
       margin-top: 0;
       height: 50px;
-      width: 100%;
       font-weight: bold;
       --mdc-theme-primary: #00F78E;
       --mdc-theme-on-primary: black;
@@ -181,6 +192,11 @@
 
     .question__save:disabled {
     --mdc-theme-primary: #B1AFBC;
+    }
+
+    .question__cancel {
+      height: 50px;
+      --mdc-theme-primary: red;
     }
 
   </style>
@@ -245,18 +261,21 @@
               <input type="text" id="my-text-field" class="mdc-text-field__input" value="Yes, Obviously">
               <div class="mdc-line-ripple"></div>
             </div>
+            <button class="mdc-icon-button material-icons" onclick="removeOption(event)">remove_circle_outline</button>
           </li>
           <li class="question-option-item">
             <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
               <input type="text" id="my-text-field" class="mdc-text-field__input" value="No C'mon">
               <div class="mdc-line-ripple"></div>
             </div>
+            <button class="mdc-icon-button material-icons" onclick="removeOption(event)">remove_circle_outline</button>
           </li>
           <li class="question-option-item">
             <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
               <input type="text" id="my-text-field" class="mdc-text-field__input" value="Not sure. Really, don't care.">
               <div class="mdc-line-ripple"></div>
             </div>
+            <button class="mdc-icon-button material-icons" onclick="removeOption(event)">remove_circle_outline</button>
           </li>
           <li class="question-option-item">
             <button data-mdc-auto-init="MDCRipple" 
@@ -265,7 +284,12 @@
               >add</button>
           </li>
         </ul>
-        <button  class="mdc-button mdc-button--unelevated question__save" data-mdc-auto-init="MDCRipple" disabled>Save</button>
+        <div class="question-actions">
+          <button class="mdc-button mdc-button--unelevated question__save" data-mdc-auto-init="MDCRipple"
+            disabled>Save</button>
+          <button class="mdc-button mdc-button--unelevated question__cancel"
+            data-mdc-auto-init="MDCRipple">Cancel</button>
+        </div>
       </div>
     </main>
   </div> 
@@ -276,15 +300,20 @@
 
     function addOption(event) {
       const optionTemplate = `
-        <li class="question-option-item">
+        <li class="question-option-item" tabindex="0">
           <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
             <input type="text" id="my-text-field" class="mdc-text-field__input">
             <div class="mdc-line-ripple"></div>
           </div>
+          <button class="mdc-icon-button material-icons" onclick="removeOption(event)">remove_circle_outline</button>
         </li>
       `;
       let newOptionElem = createElementFromHtml(optionTemplate);
-      event.target.parentNode.insertBefore(newOptionElem, event.target);
+      event.target.parentNode.parentNode.insertBefore(newOptionElem, event.target.parentNode);
+    }
+
+    function removeOption(event) {
+      event.target.parentNode.remove();
     }
 
     function createElementFromHtml(html) {
