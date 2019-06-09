@@ -18,8 +18,7 @@
 
     :root {
       --mdc-theme-primary: #17EA95;
-      /* --mdc-theme-secondary: white; */
-      --mdc-theme-surface: blue;
+      --mdc-theme-on-primary: black;
     }
 
     .app-fab--absolute {
@@ -128,14 +127,15 @@
       background: #17EA95;
     }
 
-    #quiz-description-form__submit {
+    .quiz-description-form__actions {
+      --mdc-theme-secondary: red;
       position: absolute; 
-      bottom: 0; 
+      bottom: 5px; 
       left: 50%; 
       transform: translateX(-50%)
     }
 
-    #quiz-description-form__submit:disabled {
+    .quiz-description-form__actions.hidden {
       display: none;
     }
 
@@ -253,7 +253,12 @@
       <form action="save-quiz-details.php" method="POST">
         <input type="text" id="quiz-title" style='display: none;' name="quiz-title" />
         <input type="text" id="quiz-details" style='display: none;' name="quiz-details" />
-        <input type="submit" id="quiz-description-form__submit" class="mdc-button mdc-button--unelevated" data-mdc-auto-init="MDCRipple" disabled />
+        <div class="quiz-description-form__actions hidden">
+          <button type="submit" id="quiz-description-form__submit" class="mdc-button mdc-button--unelevated"
+            data-mdc-auto-init="MDCRipple">Submit</button>
+          <button type="reset" id="quiz-description-form__cancel" class="mdc-button mdc-button--unelevated mdc-theme--secondary-bg"
+            data-mdc-auto-init="MDCRipple">Cancel</button>
+        </div>
       </form>
     </aside>
 
@@ -408,7 +413,7 @@
       quizDetailsInput.value = quizDescriptionDetails.innerText;
 
       // enable submit button
-      document.querySelector('#quiz-description-form__submit').disabled = false;
+      document.querySelector('.quiz-description-form__actions').classList.remove('hidden');
     }
   </script>
 
