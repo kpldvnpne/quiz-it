@@ -289,7 +289,7 @@
             <span class="mdc-list-item__text">Not sure. Really, don't care</span>
           </li>
         </ul>
-        <button  class="mdc-button mdc-button--unelevated question__next" data-mdc-auto-init="MDCRipple">Next</button>
+        <button  class="mdc-button mdc-button--unelevated question__next" data-mdc-auto-init="MDCRipple" disabled>Next</button>
       </div>
 
       <div class="question">
@@ -310,7 +310,7 @@
             <span class="mdc-list-item__text">The third one</span>
           </li>
         </ul>
-        <button class="mdc-button mdc-button--unelevated question__next" data-mdc-auto-init="MDCRipple">Next</button>
+        <button class="mdc-button mdc-button--unelevated question__next" data-mdc-auto-init="MDCRipple" disabled>Next</button>
       </div>
 
       <div class="question">
@@ -333,7 +333,7 @@
             <span class="mdc-list-item__text">The hot air being blown into the envelope is lighter than the air on the outside of the balloon, which created buoyancy that lifts the balloon.</span>
           </li>
         </ul>
-        <button class="mdc-button mdc-button--unelevated question__next" data-mdc-auto-init="MDCRipple">Next</button>
+        <button class="mdc-button mdc-button--unelevated question__next" data-mdc-auto-init="MDCRipple" disabled>Next</button>
       </div>
     </main>
   </div> 
@@ -361,6 +361,7 @@
       applyBehaviourToAllElements('.question', function (element) {
         element.addEventListener('MDCList:action', function (event) {
           event.target.nextElementSibling.classList.add('question__next--activated');
+          event.target.nextElementSibling.disabled = false;
         })
       })
 
