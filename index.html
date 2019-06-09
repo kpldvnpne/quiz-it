@@ -60,13 +60,13 @@
         width: 100%;
       }
 
-      .right-partition-item {
+      #right-partition-item {
         height:fit-content;
         overflow-y: auto !important;
       }
     }
 
-    .left-partition-item {
+    #left-partition-item {
       background-image: url('./assets/images/quiz-background-image-1.jpg');
       background-size: cover;
       background-position: 0 -100px;
@@ -74,7 +74,7 @@
       color: white;
     }
 
-    .right-partition-item {
+    #right-partition-item {
       overflow-y: scroll;
     }
 
@@ -173,7 +173,7 @@
 <body>
 
   <div class="partition">
-    <aside class="partition-item partition-item-4 left-partition-item">      
+    <aside class="partition-item partition-item-4" id="left-partition-item">      
       <div class="toolbar">
         <header class="toolbar__content">
           <span class="toolbar__content__title">Quiz !t</span>
@@ -214,7 +214,7 @@
       </footer>
     </aside>
 
-    <main class="partition-item partition-item-6 right-partition-item">
+    <main class="partition-item partition-item-6" id="right-partition-item">
       <div class="question">
         <label class="question__number">Question 1</label>
         <h2 class="question__title">Do you think air balloons are cool enough for 2018?</h2>
@@ -304,6 +304,12 @@
           nextElementSibling && nextElementSibling.scrollIntoView({ behavior: 'smooth' });
         })
       })
+
+      applyBehaviourToAllElements('#right-partition-item', function (element) {
+        element.addEventListener('MDCList:action', function (event) {
+          progressBar.progress = getFractionOfAnsweredQuestions();
+        })
+      })
     }
 
     function applyBehaviourToAllElements(selector, behaviour) {
@@ -311,6 +317,27 @@
       for (let i = 0; i < elements.length; ++i) {
         behaviour(elements[i]);
       }
+    }
+
+    function getFractionOfAnsweredQuestions() {
+      return getAnsweredQuestionsCount() / getTotalQuestionsCount();
+    }
+
+    function getAnsweredQuestionsCount() {
+      let answeredQuestionsCount = 0;
+
+      // count no. of .question which has .mdc-list-item--selected as a decendent
+      for (let element of document.querySelectorAll('.question')) {
+        if (element.querySelectorAll('.mdc-list-item--selected').length > 0) {
+          ++answeredQuestionsCount;
+        }
+      }
+
+      return answeredQuestionsCount;
+    }
+
+    function getTotalQuestionsCount() {
+      return document.querySelectorAll('.question').length;
     }
   </script>
 
