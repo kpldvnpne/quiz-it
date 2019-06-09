@@ -265,7 +265,7 @@
           <button type="submit" id="quiz-description-form__submit" class="mdc-button mdc-button--unelevated"
             data-mdc-auto-init="MDCRipple">Submit</button>
           <button type="reset" id="quiz-description-form__cancel" class="mdc-button mdc-button--unelevated mdc-theme--secondary-bg"
-            data-mdc-auto-init="MDCRipple">Cancel</button>
+            data-mdc-auto-init="MDCRipple" onclick="refresh()">Cancel</button>
         </div>
       </form>
     </aside>
@@ -422,6 +422,10 @@
 
       // enable submit button
       document.querySelector('.quiz-description-form__actions').classList.remove('hidden');
+    }
+
+    function refresh() {
+      window.location.reload(false);
     }
   </script>
 
