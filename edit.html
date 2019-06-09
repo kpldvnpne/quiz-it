@@ -126,7 +126,7 @@
     }
 
     .mdc-linear-progress__buffer {
-      background: #17EA95;
+      opacity: 0.5;
     }
 
     .quiz-description-form__actions {
@@ -231,6 +231,12 @@
 
         <div role="progressbar" class="mdc-linear-progress">
           <div class="mdc-linear-progress__buffer"></div>
+          <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+            <span class="mdc-linear-progress__bar-inner"></span>
+          </div>
+          <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+            <span class="mdc-linear-progress__bar-inner"></span>
+          </div>
         </div>
       </div>
 
@@ -340,7 +346,6 @@
     const MDCRipple = mdc.ripple.MDCRipple;
 
     const progressBar = new MDCLinearProgress(document.querySelector('.mdc-linear-progress'));
-    progressBar.progress = 0.2;
 
     initializeBehaviour();
 
