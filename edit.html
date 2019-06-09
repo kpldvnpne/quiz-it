@@ -89,6 +89,20 @@
       overflow-y: scroll;
     }
 
+    .change-image-label {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      /* display: none; */
+      transition: top 0.2s ease-in;
+    }
+
+    #left-partition-item:hover .change-image-label {
+      top: 10px;
+      /* display: initial; */
+    }
+
     .toolbar {
       height: 15%;
     }
@@ -219,6 +233,7 @@
 
   <div class="partition">
     <aside class="partition-item partition-item-4" id="left-partition-item">      
+      <button class="mdc-button mdc-button--raised change-image-label" data-mdc-auto-init="MDCRipple"><label for="quiz-image">Change image</label></button>
       <div class="toolbar">
         <header class="toolbar__content">
           <span class="toolbar__content__title">Quiz !t</span>
@@ -261,6 +276,7 @@
       <form action="save-quiz-details.php" method="POST">
         <input type="text" id="quiz-title" style='display: none;' name="quiz-title" />
         <input type="text" id="quiz-details" style='display: none;' name="quiz-details" />
+        <input type="file" id="quiz-image" style='display: none' name="quiz-image" onchange="handleQuizDescriptionChange()" />
         <div class="quiz-description-form__actions hidden">
           <button type="submit" id="quiz-description-form__submit" class="mdc-button mdc-button--unelevated"
             data-mdc-auto-init="MDCRipple">Submit</button>
