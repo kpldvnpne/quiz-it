@@ -148,6 +148,8 @@
     }
 
     .question-option {
+      --mdc-theme-primary: blue;
+      list-style: none;
       margin: 0;
       padding: 0;
     }
@@ -157,9 +159,8 @@
       margin-bottom: 5px;
     }
 
-    .question-option-item.mdc-list-item--selected {
-      --mdc-theme-primary: white;
-      background-color: rgb(0, 150, 206);
+    .question-option-item .mdc-text-field {
+      width: 100%;
     }
 
     .question__save {
@@ -224,11 +225,6 @@
       <div class="question">
         <label class="question__number">Question 1</label>
         <h2>
-          <!-- <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-            <input type="text" id="my-text-field" class="mdc-text-field__input question__title" value="Do you think air balloons are cool enough for 2018?">
-            <label class="mdc-floating-label" for="my-text-field">Question title</label>
-            <div class="mdc-line-ripple"></div>
-          </div> -->
           <div class="mdc-text-field mdc-text-field--textarea" data-mdc-auto-init="MDCTextField">
             <textarea id="textarea" class="mdc-text-field__input question__title" rows="3"
               cols="40">Do you think air balloons are cool enough for 2018?</textarea>
@@ -241,15 +237,27 @@
             </div>
           </div>
         </h2>
-        <ul class="mdc-list question-option" data-mdc-auto-init="MDCList">
-          <li class="mdc-list-item question-option-item" tabindex="0">
-            <span class="mdc-list-item__text">Yes, Obviously</span>
+        <ul class="question-option">
+          <li class="question-option-item" tabindex="0">
+            <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
+              <input type="text" id="my-text-field" class="mdc-text-field__input" value="Yes, Obviously">
+              <label class="mdc-floating-label" for="my-text-field">Option</label>
+              <div class="mdc-line-ripple"></div>
+            </div>
           </li>
-          <li class="mdc-list-item question-option-item">
-            <span class="mdc-list-item__text">No C'mon</span>
+          <li class="question-option-item">
+            <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
+              <input type="text" id="my-text-field" class="mdc-text-field__input" value="No C'mon">
+              <label class="mdc-floating-label" for="my-text-field">Option</label>
+              <div class="mdc-line-ripple"></div>
+            </div>
           </li>
-          <li class="mdc-list-item question-option-item">
-            <span class="mdc-list-item__text">Not sure. Really, don't care</span>
+          <li class="question-option-item">
+            <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
+              <input type="text" id="my-text-field" class="mdc-text-field__input" value="Not sure. Really, don't care.">
+              <label class="mdc-floating-label" for="my-text-field">Option</label>
+              <div class="mdc-line-ripple"></div>
+            </div>
           </li>
         </ul>
         <button  class="mdc-button mdc-button--unelevated question__save" data-mdc-auto-init="MDCRipple">Save</button>
@@ -270,10 +278,6 @@
     initializeBehaviour();
 
     function initializeBehaviour() {
-      // make them ripple 
-      applyBehaviourToAllElements('.question-option', function (element) {
-        element.MDCList.listElements.map((listItemEl) => new MDCRipple(listItemEl));
-      });
     }
 
     function applyBehaviourToAllElements(selector, behaviour) {
