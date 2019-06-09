@@ -144,6 +144,7 @@
     .question__title {
       font-family: 'Roboto Slab';
       font-size: 30px;
+      resize: none;
     }
 
     .question-option {
@@ -222,7 +223,24 @@
     <main class="partition-item partition-item-6" id="right-partition-item">
       <div class="question">
         <label class="question__number">Question 1</label>
-        <h2 class="question__title">Do you think air balloons are cool enough for 2018?</h2>
+        <h2>
+          <!-- <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
+            <input type="text" id="my-text-field" class="mdc-text-field__input question__title" value="Do you think air balloons are cool enough for 2018?">
+            <label class="mdc-floating-label" for="my-text-field">Question title</label>
+            <div class="mdc-line-ripple"></div>
+          </div> -->
+          <div class="mdc-text-field mdc-text-field--textarea" data-mdc-auto-init="MDCTextField">
+            <textarea id="textarea" class="mdc-text-field__input question__title" rows="3"
+              cols="40">Do you think air balloons are cool enough for 2018?</textarea>
+            <div class="mdc-notched-outline">
+              <div class="mdc-notched-outline__leading"></div>
+              <div class="mdc-notched-outline__notch">
+                <label for="textarea" class="mdc-floating-label">Question title</label>
+              </div>
+              <div class="mdc-notched-outline__trailing"></div>
+            </div>
+          </div>
+        </h2>
         <ul class="mdc-list question-option" data-mdc-auto-init="MDCList">
           <li class="mdc-list-item question-option-item" tabindex="0">
             <span class="mdc-list-item__text">Yes, Obviously</span>
@@ -252,10 +270,8 @@
     initializeBehaviour();
 
     function initializeBehaviour() {
-      // make all question options single select
-      // also make them ripple 
+      // make them ripple 
       applyBehaviourToAllElements('.question-option', function (element) {
-        element.MDCList.singleSelection = true;
         element.MDCList.listElements.map((listItemEl) => new MDCRipple(listItemEl));
       });
     }
