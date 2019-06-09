@@ -276,7 +276,7 @@
       <form action="save-quiz-details.php" method="POST">
         <input type="text" id="quiz-title" style='display: none;' name="quiz-title" />
         <input type="text" id="quiz-details" style='display: none;' name="quiz-details" />
-        <input type="file" id="quiz-image" style='display: none' name="quiz-image" onchange="handleQuizDescriptionChange()" />
+        <input type="file" id="quiz-image" style='display: none' name="quiz-image" onchange="handleImageChange(event)" />
         <div class="quiz-description-form__actions hidden">
           <button type="submit" id="quiz-description-form__submit" class="mdc-button mdc-button--unelevated"
             data-mdc-auto-init="MDCRipple">Submit</button>
@@ -438,6 +438,14 @@
 
       // enable submit button
       document.querySelector('.quiz-description-form__actions').classList.remove('hidden');
+    }
+
+    function handleImageChange(event) {
+      let url = URL.createObjectURL(event.target.files[0]);
+      const leftPartition = document.querySelector('#left-partition-item');
+      leftPartition.style.setProperty('background-image', 'url(' + url + ')');
+
+      handleQuizDescriptionChange();
     }
 
     function refresh() {
