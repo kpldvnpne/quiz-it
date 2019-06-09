@@ -258,21 +258,21 @@
         <ul class="question-option">
           <li class="question-option-item" tabindex="0">
             <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
-              <input type="text" id="my-text-field" class="mdc-text-field__input" value="Yes, Obviously">
+              <input type="text" id="my-text-field" class="mdc-text-field__input" oninput="makeSaveAccessible()" value="Yes, Obviously">
               <div class="mdc-line-ripple"></div>
             </div>
             <button class="mdc-icon-button material-icons" onclick="removeOption(event)">remove_circle_outline</button>
           </li>
           <li class="question-option-item">
             <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
-              <input type="text" id="my-text-field" class="mdc-text-field__input" value="No C'mon">
+              <input type="text" id="my-text-field" class="mdc-text-field__input"  oninput="makeSaveAccessible()"value="No C'mon">
               <div class="mdc-line-ripple"></div>
             </div>
             <button class="mdc-icon-button material-icons" onclick="removeOption(event)">remove_circle_outline</button>
           </li>
           <li class="question-option-item">
             <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
-              <input type="text" id="my-text-field" class="mdc-text-field__input" value="Not sure. Really, don't care.">
+              <input type="text" id="my-text-field" class="mdc-text-field__input"  oninput="makeSaveAccessible()"value="Not sure. Really, don't care.">
               <div class="mdc-line-ripple"></div>
             </div>
             <button class="mdc-icon-button material-icons" onclick="removeOption(event)">remove_circle_outline</button>
@@ -302,7 +302,7 @@
       const optionTemplate = `
         <li class="question-option-item" tabindex="0">
           <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-            <input type="text" id="my-text-field" class="mdc-text-field__input">
+            <input type="text" id="my-text-field" class="mdc-text-field__input" oninput="makeSaveAccessible()">
             <div class="mdc-line-ripple"></div>
           </div>
           <button class="mdc-icon-button material-icons" onclick="removeOption(event)">remove_circle_outline</button>
@@ -310,10 +310,18 @@
       `;
       let newOptionElem = createElementFromHtml(optionTemplate);
       event.target.parentNode.parentNode.insertBefore(newOptionElem, event.target.parentNode);
+
+      makeSaveAccessible();
     }
 
     function removeOption(event) {
       event.target.parentNode.remove();
+
+      makeSaveAccessible();
+    }
+
+    function makeSaveAccessible() {
+      document.querySelector('.question__save').disabled = false;
     }
 
     function createElementFromHtml(html) {
