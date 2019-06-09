@@ -299,8 +299,10 @@
       // make all button scroll to next question on finish
       applyBehaviourToAllElements('.question__next', function (element) {
         element.addEventListener('click', function (event) {
-          const nextElementSibling = event.target.parentNode.nextElementSibling;
-          nextElementSibling && nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          if (event.target.classList.contains('question__next--activated')) {
+            const nextElementSibling = event.target.parentNode.nextElementSibling;
+            nextElementSibling && nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
         })
       })
 
