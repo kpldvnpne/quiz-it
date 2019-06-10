@@ -167,18 +167,18 @@
       background-color: rgb(0, 150, 206);
     }
 
-    .question__next {
+    .question__next, .quiz__submit {
+      --mdc-theme-primary: #00F78E;
+      --mdc-theme-on-primary: black;
       margin-top: 0;
-      --mdc-theme-primary: #B1AFBC;
       height: 50px;
       width: 100%;
       font-weight: bold;
     }
 
-    .question__next--activated {
-      --mdc-theme-primary: #00F78E;
-      --mdc-theme-on-primary: black;
-      color: black;
+    .question__next:disabled, .quiz__submit:disabled {
+      --mdc-theme-primary: #B1AFBC;
+      --mdc-theme-on-primary: white;
     }
 
   </style>
@@ -210,6 +210,7 @@
 
       <div class="quiz-description">
         <div class="mdc-chip-set hashtag-set">
+
           <?php foreach ($quizData['tags'] as $tag): ?>
             <div class="mdc-chip hashtag">
               <div class="mdc-chip__text"> 
@@ -217,6 +218,7 @@
               </div>
             </div>
           <?php endforeach; ?>
+
         </div>
         <h1><?=$quizData['quizTitle']?></h1>
         <p><?=$quizData['quizDetails']?></h3>
@@ -229,58 +231,29 @@
     </aside>
 
     <main class="partition-item partition-item-6" id="right-partition-item">
-      <div class="question">
-        <label class="question__number">Question 1</label>
-        <h2 class="question__title">Do you think air balloons are cool enough for 2018?</h2>
-        <ul class="mdc-list question-option" data-mdc-auto-init="MDCList">
-          <li class="mdc-list-item question-option-item" tabindex="0">
-            <span class="mdc-list-item__text">Yes, Obviously</span>
-          </li>
-          <li class="mdc-list-item question-option-item">
-            <span class="mdc-list-item__text">No C'mon</span>
-          </li>
-          <li class="mdc-list-item question-option-item">
-            <span class="mdc-list-item__text">Not sure. Really, don't care</span>
-          </li>
-        </ul>
-        <button  class="mdc-button mdc-button--unelevated question__next" data-mdc-auto-init="MDCRipple" disabled>Next</button>
-      </div>
 
-      <div class="question">
-        <label class="question__number">Question 2</label>
-        <h2 class="question__title">Which of these show the trendy lock pattern?</h2>
-        <ul class="mdc-list question-option" data-mdc-auto-init="MDCList">
-          <li class="mdc-list-item question-option-item" tabindex="0">
-            <span class="mdc-list-item__text">The first one</span>
-          </li>
-          <li class="mdc-list-item question-option-item">
-            <span class="mdc-list-item__text">The second one</span>
-          </li>
-          <li class="mdc-list-item question-option-item">
-            <span class="mdc-list-item__text">The third one</span>
-          </li>
-        </ul>
-        <button class="mdc-button mdc-button--unelevated question__next" data-mdc-auto-init="MDCRipple" disabled>Next</button>
-      </div>
+      <?php foreach($quizData['questions'] as $questionNo => $question): ?>
+        <div class="question">
+          <label class="question__number">Question <?=$questionNo + 1?></label>
+          <h2 class="question__title"><?=$question['questionTitle']?></h2>
+          <ul class="mdc-list question-option" data-mdc-auto-init="MDCList">
 
-      <div class="question">
-        <label class="question__number">Question 3</label>
-        <h2 class="question__title">How doews a hot air balloon fly?</h2>
-        <ul class="mdc-list question-option" data-mdc-auto-init="MDCList">
-          <li class="mdc-list-item question-option-item" tabindex="0">
-            <span class="mdc-list-item__text">The gas that is foreign to the air that is emitted from burning propane is lightter than 
-              the air outside the balloon which creates buoyancy.
-            </span>
-          </li>
-          <li class="mdc-list-item question-option-item">
-            <span class="mdc-list-item__text">The air being blown into the balloon pushed on the envelope which creates buoyancy that lifts the balloon.</span>
-          </li>
-          <li class="mdc-list-item question-option-item">
-            <span class="mdc-list-item__text">The hot air being blown into the envelope is lighter than the air on the outside of the balloon, which created buoyancy that lifts the balloon.</span>
-          </li>
-        </ul>
-        <button class="mdc-button mdc-button--unelevated question__next" data-mdc-auto-init="MDCRipple" disabled>Next</button>
-      </div>
+            <?php foreach($question['options'] as $optionIndex => $option):?>
+              <li class="mdc-list-item question-option-item" <?= $optionIndex === 0 ? 'tabindex="0"': ''; ?> >
+                <span class="mdc-list-item__text"><?=$option?></span>
+              </li>
+            <?php endforeach; ?>
+
+          </ul>
+
+          <?php if ($questionNo + 1 === count($quizData['questions'])): ?>
+            <button  class="mdc-button mdc-button--unelevated quiz__submit" data-mdc-auto-init="MDCRipple" disabled>Submit</button>
+          <?php else: ?>
+            <button  class="mdc-button mdc-button--unelevated question__next" data-mdc-auto-init="MDCRipple" disabled>Next</button>
+          <?php endif; ?>
+        </div>
+      <?php endforeach; ?>
+
     </main>
   </div> 
 
@@ -306,24 +279,27 @@
       // apply button color changes on question options select
       applyBehaviourToAllElements('.question', function (element) {
         element.addEventListener('MDCList:action', function (event) {
-          event.target.nextElementSibling.classList.add('question__next--activated');
-          event.target.nextElementSibling.disabled = false;
+          const nextElementSibling = event.target.nextElementSibling;
+          if (nextElementSibling.classList.contains('question__next'))
+            nextElementSibling.disabled = false;
         })
       })
 
       // make all button scroll to next question on finish
       applyBehaviourToAllElements('.question__next', function (element) {
         element.addEventListener('click', function (event) {
-          if (event.target.classList.contains('question__next--activated')) {
             const nextElementSibling = event.target.parentNode.nextElementSibling;
             nextElementSibling && nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
         })
       })
 
       applyBehaviourToAllElements('#right-partition-item', function (element) {
         element.addEventListener('MDCList:action', function (event) {
-          progressBar.progress = getFractionOfAnsweredQuestions();
+          const progress = getFractionOfAnsweredQuestions();
+          progressBar.progress = progress;
+          if (progress === 1) {
+            document.querySelector('.quiz__submit').disabled = false;
+          }
         })
       })
     }
