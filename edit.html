@@ -286,9 +286,9 @@
 
       <div class="quiz-description" oninput="handleQuizDescriptionChange()">
         <div class="mdc-chip-set mdc-chip-set--input hashtag-set" data-mdc-auto-init="MDCChipSet">
-          <div class="mdc-chip hashtag hashtag--add">
+          <div class="mdc-chip hashtag hashtag--add" onmouseout="handleHashtagInputMouseOut(event)" oninput="event.stopPropagation();" onchange="event.stopPropagation();">
             <i class="material-icons mdc-chip__icon mdc-chip__icon--leading" role="button">add</i>
-            <div class="mdc-chip__text hashtag--add__input" contenteditable="true">New Hashtag</div>
+            <div class="mdc-chip__text hashtag--add__input" contenteditable="true" onkeydown="handleHashtagInputKeyDown(event)">New Hashtag</div>
           </div>
           <div class="mdc-chip hashtag" tabindex="0">
             <div class="mdc-chip__text">#CULTURE</div>
@@ -391,6 +391,8 @@
   </div> 
 
   <script>
+    const EMPTY_HASHTAG_DEFAULT_VALUE = 'New Hashtag';
+
     // Auto Init
     window.mdc.autoInit();
 
@@ -427,6 +429,7 @@
         })
       })
 
+      // change progressBar based on answered questions
       applyBehaviourToAllElements('#right-partition-item', function (element) {
         element.addEventListener('MDCList:action', function (event) {
           progressBar.progress = getFractionOfAnsweredQuestions();
@@ -482,6 +485,46 @@
       leftPartition.style.setProperty('background-image', 'url(' + url + ')');
 
       handleQuizDescriptionChange();
+    }
+
+    function handleHashtagInputMouseOut(event) {
+      const hashtagInputEl = document.querySelector('.hashtag--add__input');
+      if (hashtagInputEl.innerText.trim() == "")
+        hashtagInputEl.innerText = EMPTY_HASHTAG_DEFAULT_VALUE;
+    }
+
+    function handleHashtagInputKeyDown(event) {
+      if (event.key === 'Enter' || event.keyCode === 13) {
+        event.preventDefault();   // prevent Enter from inserting <br />
+
+        let hashtagText = event.target.innerText.toUpperCase().split(' ').join('_');
+        hashtagText = hashtagText[0] === '#' ? hashtagText : '#' + hashtagText;
+        event.target.innerText = EMPTY_HASHTAG_DEFAULT_VALUE;
+
+        const chipTemplate = `
+          <div class="mdc-chip hashtag">
+            <div class="mdc-chip__text"></div>
+            <i class="material-icons mdc-chip__icon mdc-chip__icon--trailing" role="button">cancel</i>
+          </div>
+        `;
+        const chipEl = createElementFromHtml(chipTemplate);
+        chipEl.querySelector('.mdc-chip__text').innerText = hashtagText;
+
+        const chipSetEl = document.querySelector('.hashtag-set');
+        const chipSet = chipSetEl.MDCChipSet;
+
+        chipSetEl.appendChild(chipEl);
+        chipSet.addChip(chipEl);
+      } else {
+        // prevent propagation so, overall form is not changed
+        event.stopPropagation();
+      }
+    }
+
+    function createElementFromHtml(html) {
+      var template = document.createElement('template');
+      template.innerHTML = html.trim();
+      return template.content.firstChild;
     }
 
     function refresh() {
