@@ -312,7 +312,7 @@
       <form action="save-quiz-details.php" method="POST">
         <input type="text" id="quiz-title" style='display: none;' name="quiz-title" />
         <input type="text" id="quiz-details" style='display: none;' name="quiz-details" />
-        <input type="file" id="quiz-image" style='display: none' name="quiz-image" onchange="handleImageChange(event)" />
+        <input type="file" id="quiz-image" style='display: none' name="quiz-image" accept="image/*" onchange="handleImageChange(event)" />
         <input type="text" id="quiz-tags" style='display: none' name="quiz-tags">
         <div class="quiz-description-form__actions hidden">
           <button type="submit" id="quiz-description-form__submit" class="mdc-button mdc-button--unelevated"
@@ -493,6 +493,11 @@
     }
 
     function handleImageChange(event) {
+      if (event && event.target && event.target.files && event.target.files[0].type.split('/')[0] != 'image') {
+        // TODO: replace with dialog box
+        alert('Not a valid image file');
+        return false;
+      }
       let url = URL.createObjectURL(event.target.files[0]);
       const leftPartition = document.querySelector('#left-partition-item');
       leftPartition.style.setProperty('background-image', 'url(' + url + ')');
