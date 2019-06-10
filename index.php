@@ -1,6 +1,8 @@
 <?php
   require 'data-provider.php';
-  $quizId = $_GET["quizId"];
+
+  // TODO: make quizId random when not provided
+  $quizId = isset($_GET["quizID"]) ? $_GET["quizId"] : 1;
 
   $quizData = QuizDataProvider::getAllQuizData($quizId);
 
@@ -208,18 +210,16 @@
 
       <div class="quiz-description">
         <div class="mdc-chip-set hashtag-set">
-          <?php
-            foreach ($quizData['tags'] as $tag) {
-echo <<<EOT
-              <div class="mdc-chip hashtag">
-                <div class="mdc-chip__text">#{$tag}</div>
+          <?php foreach ($quizData['tags'] as $tag): ?>
+            <div class="mdc-chip hashtag">
+              <div class="mdc-chip__text"> 
+                #<?=$tag?> 
               </div>
-EOT;
-            }
-          ?>
+            </div>
+          <?php endforeach; ?>
         </div>
-        <h1>How well do you know your ballons?</h1>
-        <p>A short quiz to test how well you know air balloons</h3>
+        <h1><?=$quizData['quizTitle']?></h1>
+        <p><?=$quizData['quizDetails']?></h3>
       </div>
 
       <footer class="footer">

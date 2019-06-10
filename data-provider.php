@@ -18,7 +18,7 @@ class QuizDataProvider {
 
 	public static function getQuizDescription($quizId) {
 		$pdo = Database::connect();
-		$stmt = $pdo->prepare('SELECT title, details FROM quiz WHERE id = ?');
+		$stmt = $pdo->prepare('SELECT title as quizTitle, details as quizDetails FROM quiz WHERE id = ?');
 		$stmt->execute([$quizId]);
 		$quizDescription = $stmt->fetch(PDO::FETCH_ASSOC);
 
