@@ -4,9 +4,9 @@
 
   $quizData = QuizDataProvider::getAllQuizData($quizId);
 
-  print_r($quizData);
+  // print_r($quizData);
 
-  return;
+  // return;
 ?>
 
 <html>
@@ -116,6 +116,7 @@
       background-color: rgb(255, 255, 255, 0.5);
       /* opacity: 0.5; */
       text-shadow: none;
+      text-transform: uppercase;
     }
 
     .quiz-description, .footer {
@@ -207,12 +208,15 @@
 
       <div class="quiz-description">
         <div class="mdc-chip-set hashtag-set">
-          <div class="mdc-chip hashtag">
-            <div class="mdc-chip__text">#CULTURE</div>
-          </div>
-          <div class="mdc-chip hashtag">
-            <div class="mdc-chip__text">#MALAYSIA</div>
-          </div>
+          <?php
+            foreach ($quizData['tags'] as $tag) {
+echo <<<EOT
+              <div class="mdc-chip hashtag">
+                <div class="mdc-chip__text">#{$tag}</div>
+              </div>
+EOT;
+            }
+          ?>
         </div>
         <h1>How well do you know your ballons?</h1>
         <p>A short quiz to test how well you know air balloons</h3>
