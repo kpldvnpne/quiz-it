@@ -5,10 +5,6 @@
   $quizId = isset($_GET["quizID"]) ? $_GET["quizId"] : 1;
 
   $quizData = QuizDataProvider::getAllQuizData($quizId);
-
-  // print_r($quizData);
-
-  // return;
 ?>
 
 <html>
