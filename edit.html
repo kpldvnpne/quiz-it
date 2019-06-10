@@ -156,7 +156,7 @@
       background: white;
     }
 
-    .hashtag--add:hover .hashtag--add__input {
+    .hashtag--add:hover .hashtag--add__input, .hashtag--add__input:focus {
       position: relative;
       width: auto;
       color: initial;
@@ -313,6 +313,7 @@
         <input type="text" id="quiz-title" style='display: none;' name="quiz-title" />
         <input type="text" id="quiz-details" style='display: none;' name="quiz-details" />
         <input type="file" id="quiz-image" style='display: none' name="quiz-image" onchange="handleImageChange(event)" />
+        <input type="text" id="quiz-tags" style='display: none' name="quiz-tags">
         <div class="quiz-description-form__actions hidden">
           <button type="submit" id="quiz-description-form__submit" class="mdc-button mdc-button--unelevated"
             data-mdc-auto-init="MDCRipple">Submit</button>
@@ -435,6 +436,13 @@
           progressBar.progress = getFractionOfAnsweredQuestions();
         })
       })
+
+      // detect quiz-details change based on hashtag changes
+      applyBehaviourToAllElements('.hashtag-set', function (element) {
+        element.addEventListener('MDCChip:removal', function (event) {
+          handleQuizDescriptionChange();
+        })
+      })
     }
 
     function applyBehaviourToAllElements(selector, behaviour) {
@@ -468,12 +476,17 @@
     function handleQuizDescriptionChange(event) {
       const quizDescriptionTitle = document.querySelector('.quiz-description__title');
       const quizDescriptionDetails = document.querySelector('.quiz-description__details');
+      const quizDescriptionTags = document.querySelector('.hashtag-set');
 
       const quizTitleInput = document.querySelector('#quiz-title');
       const quizDetailsInput = document.querySelector('#quiz-details');
+      const quizTagsInput = document.querySelector('#quiz-tags');
 
       quizTitleInput.value = quizDescriptionTitle.innerText;
       quizDetailsInput.value = quizDescriptionDetails.innerText;
+      quizTagsInput.value = quizDescriptionTags.MDCChipSet.chips.slice(1).map(chip => {
+        return chip.root_.querySelector('.mdc-chip__text').innerText;
+      }).join(',');
 
       // enable submit button
       document.querySelector('.quiz-description-form__actions').classList.remove('hidden');
@@ -515,6 +528,8 @@
 
         chipSetEl.appendChild(chipEl);
         chipSet.addChip(chipEl);
+
+        handleQuizDescriptionChange();
       } else {
         // prevent propagation so, overall form is not changed
         event.stopPropagation();
