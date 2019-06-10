@@ -1,3 +1,15 @@
+<?php
+  require 'database.php';
+  $pdo = Database::connect();
+  $quizId = $_GET["quizId"];
+  $sql = "SELECT * FROM quiz WHERE id={$quizId}";
+
+  $quizDescription = $pdo->query($sql)->fetch();
+  echo $quizDescription['title'].'|'.$quizDescription['details'];
+
+  return;
+?>
+
 <html>
 <head>
   <!-- CSS and JS for making MDC (Material Design Components) work -->

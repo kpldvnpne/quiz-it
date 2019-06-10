@@ -1,9 +1,9 @@
 <?php
 class Database {
-    private static $dbName = 'crud_tutorial' ;
-    private static $dbHost = 'localhost' ;
+    private static $dbName = 'quiz' ;
+    private static $dbHost = 'localhost:3308' ;
     private static $dbUsername = 'root';
-    private static $dbUserPassword = 'root';
+    private static $dbUserPassword = '';
      
     private static $cont  = null;
      
