@@ -12,6 +12,7 @@ class QuizDataProvider {
 		$quizData = self::getQuizDescription($quizId);
 
 		$quizData['questions'] = self::getQuizQuestions($quizId);
+		$quizData['tags'] = self::getQuizTags($quizId);
 		return $quizData;
 	}
 
@@ -23,6 +24,28 @@ class QuizDataProvider {
 
 		Database::disconnect();
 		return $quizDescription;
+	}
+
+	public static function getQuizTags($quizId) {
+		$pdo = Database::connect();
+		$stmt = '
+		SELECT h.tag as tag FROM
+			quiz_hashtag as q_h
+		INNER JOIN
+			hashtag as h
+		ON
+			q_h.hashtag_id = h.id
+		WHERE
+			q_h.quiz_id = ?;
+		';
+
+		$stmt = $pdo->prepare($stmt);
+		$stmt->execute([$quizId]);
+
+		$tags = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+		Database::disconnect();
+		return $tags;
 	}
 	
 	public static function getQuizQuestions($quizId) {
