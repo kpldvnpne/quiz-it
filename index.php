@@ -1,11 +1,10 @@
 <?php
-  require 'database.php';
-  $pdo = Database::connect();
+  require 'data-provider.php';
   $quizId = $_GET["quizId"];
-  $sql = "SELECT * FROM quiz WHERE id={$quizId}";
 
-  $quizDescription = $pdo->query($sql)->fetch();
-  echo $quizDescription['title'].'|'.$quizDescription['details'];
+  $quizData = QuizDataProvider::getAllQuizData($quizId);
+
+  print_r($quizData);
 
   return;
 ?>
