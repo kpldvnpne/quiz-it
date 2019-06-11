@@ -37,6 +37,8 @@ class QuizDataProvider {
 			q_h.hashtag_id = h.id
 		WHERE
 			q_h.quiz_id = ?;
+		ORDER BY
+			h.id
 		';
 
 		$stmt = $pdo->prepare($stmt);
@@ -64,7 +66,9 @@ class QuizDataProvider {
 		ON
 			q.id = c.question_id
 		WHERE
-			q.quiz_id = ?;
+			q.quiz_id = ?
+		ORDER BY
+			q.id, c.id;
 		';
 
 		$stmt = $pdo->prepare($stmt);
