@@ -227,29 +227,37 @@
     </aside>
 
     <main class="partition-item partition-item-6" id="right-partition-item">
+      <form action="result.php" method="POST">
 
       <?php foreach($quizData['questions'] as $questionNo => $question): ?>
         <div class="question">
           <label class="question__number">Question <?=$questionNo + 1?></label>
           <h2 class="question__title"><?=$question['questionTitle']?></h2>
-          <ul class="mdc-list question-option" data-mdc-auto-init="MDCList">
+          <div class="mdc-list question-option" data-mdc-auto-init="MDCList">
+
+            <?php $nameFormOption = "question[$questionNo]" ?>
 
             <?php foreach($question['options'] as $optionIndex => $option):?>
-              <li class="mdc-list-item question-option-item" <?= $optionIndex === 0 ? 'tabindex="0"': ''; ?> >
+              <?php $optionId = 'question'.$questionNo.'option'.$optionIndex ?>
+
+              <label for="<?=$optionId?>" class="mdc-list-item question-option-item" <?= $optionIndex === 0 ? 'tabindex="0"': ''; ?> >
                 <span class="mdc-list-item__text"><?=$option?></span>
-              </li>
+              </label>
+              <input id="<?=$optionId?>" style="display: none" type="radio" name="<?=$nameFormOption?>" value="<?=$optionIndex?>"/>
+
             <?php endforeach; ?>
 
-          </ul>
+          </div>
 
           <?php if ($questionNo + 1 === count($quizData['questions'])): ?>
-            <button  class="mdc-button mdc-button--unelevated quiz__submit" data-mdc-auto-init="MDCRipple" disabled>Submit</button>
+            <button class="mdc-button mdc-button--unelevated quiz__submit" data-mdc-auto-init="MDCRipple" disabled>Submit</button>
           <?php else: ?>
-            <button  class="mdc-button mdc-button--unelevated question__next" data-mdc-auto-init="MDCRipple" disabled>Next</button>
+            <button type="button" onclick="return false;" class="mdc-button mdc-button--unelevated question__next" data-mdc-auto-init="MDCRipple" disabled>Next</button>
           <?php endif; ?>
         </div>
       <?php endforeach; ?>
 
+      </form>
     </main>
   </div> 
 
