@@ -9,7 +9,21 @@ class QuizDataEditor {
   }
 
   public static function updateQuestion($questionId, $questionData) {
-    return self::updateQuestionTitle($questionId, $questionData['questionTitle']);
+    $succeeded = false;
+    $pdo = Database::connect();
+
+    $pdo->beginTransaction();
+    if (self::updateQuestionTitle($questionId, $questionData['questionTitle'])
+        && self::updateQuestionOptions($questionId, $questionData['options'])) {
+      $pdo->commit();
+      $succeeded = true;
+    } else {
+      $pdo->rollBack();
+      $succeeded = false;
+    }
+
+    Database::disconnect();
+    return $succeeded;
   }
 
   private static function updateQuestionTitle($questionId, $questionTitle) {
@@ -19,20 +33,79 @@ class QuizDataEditor {
     $stmt = '
     UPDATE 
       question
-    WHERE
-      id=?
     SET
       title=?
+    WHERE
+      id=?
     ';
 
     $stmt = $pdo->prepare($stmt);
 
-    if ($stmt->execute([$questionId, $questionTitle])) {
+    if ($stmt->execute([$questionTitle, $questionId])) {
       $succeeded = true;
     }
 
-    Database::disconnect();
+    // Database::disconnect();
     return $succeeded;
+  }
+
+  private static function updateQuestionOptions($questionId, $options) {
+    if (!self::deleteAllQuestionOptions($questionId)) {
+      return false;
+    }
+
+    $succeeded = false;
+    $pdo = Database::connect();
+
+    foreach ($options as $option) {
+      $stmt = '
+      INSERT INTO
+        choice(value, correct, question_id)
+      VALUES
+        (:value, :correct, :questionId)
+      ;
+      ';
+
+      $stmt = $pdo->prepare($stmt);
+
+      if ($stmt->execute(['value'=> $option['value'], 'correct' => self::getChoice($option), 'questionId' => $questionId])) {
+        $succeeded = true;
+      }
+    }
+
+    // Database::disconnect();
+    return $succeeded;
+  }
+
+  private static function deleteAllQuestionOptions($questionId) {
+    $succeeded = false;
+    $pdo = Database::connect();
+
+    $stmt = '
+    DELETE FROM
+      choice
+    WHERE
+      question_id=?
+    ';
+
+    echo 'Here';
+    $stmt = $pdo->prepare($stmt);
+
+    if ($stmt->execute([$questionId])) {
+      $succeeded = true;
+    } else {
+      echo 'Delete error' . $pdo->errorCode();
+    }
+
+    // Database::disconnect();
+    return $succeeded;
+  }
+
+  private static function getChoice($option) {
+    if (isset($option['isCorrect']))
+      return true;
+    else
+      return false;
   }
 
 }
