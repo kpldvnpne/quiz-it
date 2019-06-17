@@ -284,7 +284,7 @@
 
               <div class="mdc-form-field" data-mdc-auto-init="MDCFormField">
                 <div class="mdc-checkbox" data-mdc-auto-init="MDCCheckbox">
-                  <input type="checkbox" class="mdc-checkbox__native-control" name="correctOptions[]" />
+                  <input type="checkbox" class="mdc-checkbox__native-control" name="correctOptions[]" onchange="makeSaveAccessible()" />
                   <div class="mdc-checkbox__background">
                     <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                       <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
