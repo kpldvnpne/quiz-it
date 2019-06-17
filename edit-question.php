@@ -6,6 +6,7 @@
   // TODO: make edit.php not accessible when no id is given
   $quizId = isset($_GET["quizId"]) ? $_GET["quizId"] : 1;
   $questionIndex = (int) (isset($_GET['questionIndex']) ? $_GET['questionIndex']: 0);
+  $questionId = (int) (isset($_GET['questionId']) ? $_GET['questionId']: 0);
 
   $quizData = QuizDataProvider::getAllQuizData($quizId);
 
@@ -261,7 +262,7 @@
     </aside>
 
     <main class="partition-item partition-item-6" id="right-partition-item">
-      <form action="save-question.php?<?php echo http_build_query(['quizId' => $quizId, 'questionIndex' => $questionIndex]) ?>" method="post">
+      <form action="save-question.php?<?php echo http_build_query(['quizId' => $quizId, 'questionIndex' => $questionIndex, 'questionId' => $questionId]) ?>" method="post">
 
       <div class="question">
         <label class="question__number">Question <?=$questionIndex + 1?></label>

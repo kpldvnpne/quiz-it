@@ -346,10 +346,10 @@
       <?php foreach($quizData['questions'] as $questionIndex => $question): ?>
         <div class="question">
           <div class="question-modify">
-            <a href="<?php echo BASE_URL . '/edit-question.php?' . http_build_query(['quizId' => $quizId, 'questionIndex' => $questionIndex]); ?>">
+            <a href="<?php echo BASE_URL . '/edit-question.php?' . http_build_query(['quizId' => $quizId, 'questionIndex' => $questionIndex, 'questionId' => $question['questionId']]); ?>">
               <button class="mdc-button material-icons question-modify__button" data-mdc-auto-init="MDCRipple">edit</button>
             </a>
-            <a href="<?php echo BASE_URL . '/delete-question.php?' . http_build_query(['questionIndex' => $questionIndex]); ?>">
+            <a href="<?php echo BASE_URL . '/delete-question.php?' . http_build_query(['questionIndex' => $questionIndex, 'questionId' => $question['questionId']]); ?>">
               <button class="mdc-button material-icons question-modify__button" data-mdc-auto-init="MDCRipple">delete</button>
             </a>
           </div>
