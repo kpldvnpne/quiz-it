@@ -4,7 +4,7 @@
 
   // TODO: make edit.php not accessible when no id is given
   $quizId = isset($_GET["quizId"]) ? $_GET["quizId"] : 1;
-  $questionIndex = (integer) isset($_GET["questionIndex"]) ?: 0;
+  $questionIndex = (int) (isset($_GET['questionIndex']) ? $_GET['questionIndex']: 0);
 
   $quizData = QuizDataProvider::getAllQuizData($quizId);
 
