@@ -1,5 +1,9 @@
 <?php
 
+  function redirect($url, $statusCode = 303) {
+    header('Location: ' . $url, true, $statusCode);
+  }
+
   require 'data-editor.php';
 
   $quizId = isset($_GET["quizId"]) ? $_GET["quizId"] : 1;
@@ -8,10 +12,8 @@
   $questionData = $_POST;
 
   if (QuizDataEditor::updateQuestion($questionId, $questionData)) {
-    echo "Successfully edited question";
+    redirect('edit.php', 301);
   } else {
-    echo "Could not edit question";
+    redirect('edit-question.php?' . http_build_query($_GET), 301);
   }
-
-  // TODO: redirect to edit.php or edit-question.php according to error or not
 ?> 
