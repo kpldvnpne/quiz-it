@@ -261,6 +261,8 @@
     </aside>
 
     <main class="partition-item partition-item-6" id="right-partition-item">
+      <form action="save-question.php" method="post">
+
       <div class="question">
         <label class="question__number">Question <?=$questionIndex + 1?></label>
         <h2>
@@ -301,7 +303,7 @@
           <?php endforeach; ?>
 
           <li class="question-option-item">
-            <button data-mdc-auto-init="MDCRipple" 
+            <button type="button" data-mdc-auto-init="MDCRipple
               class="mdc-button mdc-button--outlined material-icons question-option-item__add"
               onclick="addOption(event)"
               >add</button>
@@ -316,6 +318,8 @@
             data-mdc-auto-init="MDCRipple">Cancel</a>
         </div>
       </div>
+
+      </form>
     </main>
   </div> 
 
