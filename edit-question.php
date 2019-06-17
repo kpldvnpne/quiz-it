@@ -268,7 +268,7 @@
         <label class="question__number">Question <?=$questionIndex + 1?></label>
         <h2>
           <div class="mdc-text-field mdc-text-field--textarea" data-mdc-auto-init="MDCTextField">
-            <textarea id="textarea" class="mdc-text-field__input question__title" name="questionTitle" rows="3" cols="40"><?=$questionData['questionTitle']?></textarea>
+            <textarea id="textarea" class="mdc-text-field__input question__title" name="questionTitle" rows="3" cols="40" oninput="makeSaveAccessible()"><?=$questionData['questionTitle']?></textarea>
             <div class="mdc-notched-outline">
               <div class="mdc-notched-outline__leading"></div>
               <div class="mdc-notched-outline__notch">
