@@ -2,7 +2,7 @@
   require 'data-provider.php';
 
   // TODO: make edit.php not accessible when no id is given
-  $quizId = isset($_GET["quizID"]) ? $_GET["quizId"] : 1;
+  $quizId = isset($_GET["quidId"]) ? $_GET["quizId"] : 1;
 
   $quizData = QuizDataProvider::getAllQuizData($quizId);
 ?>
