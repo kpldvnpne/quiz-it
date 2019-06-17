@@ -4,19 +4,11 @@
 
   // TODO: make edit.php not accessible when no id is given
   $quizId = isset($_GET["quizId"]) ? $_GET["quizId"] : 1;
-  $questionId = isset($_GET["questionId"]) ?: 1;
+  $questionIndex = (integer) isset($_GET["questionIndex"]) ?: 0;
 
   $quizData = QuizDataProvider::getAllQuizData($quizId);
 
-  $questionData = array_filter(
-    $quizData['questions'], 
-    function ($question) use ($questionId) {
-      return $question['questionId'] == $questionId;
-    }
-  );
-  if ($questionData !== null && count($questionData) > 0) {
-    $questionData = $questionData[0];
-  }
+  $questionData = $quizData['questions'][$questionIndex];
 
   // TODO: throw error when no questionData found and show the error page, which displays automatically on based on throw statement
 
@@ -269,11 +261,10 @@
 
     <main class="partition-item partition-item-6" id="right-partition-item">
       <div class="question">
-        <label class="question__number">Question 1</label>
+        <label class="question__number">Question <?=$questionIndex + 1?></label>
         <h2>
           <div class="mdc-text-field mdc-text-field--textarea" data-mdc-auto-init="MDCTextField">
-            <textarea id="textarea" class="mdc-text-field__input question__title" rows="3"
-              cols="40">Do you think air balloons are cool enough for 2018?</textarea>
+            <textarea id="textarea" class="mdc-text-field__input question__title" rows="3" cols="40"><?=$questionData['questionTitle']?></textarea>
             <div class="mdc-notched-outline">
               <div class="mdc-notched-outline__leading"></div>
               <div class="mdc-notched-outline__notch">
@@ -284,33 +275,17 @@
           </div>
         </h2>
         <ul class="question-option">
-          <li class="question-option-item" tabindex="0">
-            <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
-              <input type="text" id="my-text-field" class="mdc-text-field__input" oninput="makeSaveAccessible()" value="Yes, Obviously">
-              <div class="mdc-line-ripple"></div>
-            </div>
-            <button class="mdc-icon-button material-icons" onclick="removeOption(event)">cancel</button>
-          </li>
-          <li class="question-option-item">
-            <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
-              <input type="text" id="my-text-field" class="mdc-text-field__input"  oninput="makeSaveAccessible()"value="No C'mon">
-              <div class="mdc-line-ripple"></div>
-            </div>
-            <button class="mdc-icon-button material-icons" onclick="removeOption(event)">cancel</button>
-          </li>
-          <li class="question-option-item">
-            <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
-              <input type="text" id="my-text-field" class="mdc-text-field__input"  oninput="makeSaveAccessible()"value="Not sure. Really, don't care.">
-              <div class="mdc-line-ripple"></div>
-            </div>
-            <button class="mdc-icon-button material-icons" onclick="removeOption(event)">cancel</button>
-          </li>
-          <li class="question-option-item">
-            <button data-mdc-auto-init="MDCRipple" 
-              class="mdc-button mdc-button--outlined material-icons question-option-item__add"
-              onclick="addOption(event)"
-              >add</button>
-          </li>
+
+          <?php foreach($questionData['options'] as $optionIndex => $option): ?>
+            <li class="question-option-item" <?=$optionIndex === 0 ? 'tabindex="0"': '';?> >
+              <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
+                <input type="text" id="my-text-field" class="mdc-text-field__input" oninput="makeSaveAccessible()" value="<?=$option?>">
+                <div class="mdc-line-ripple"></div>
+              </div>
+              <button class="mdc-icon-button material-icons" onclick="removeOption(event)">cancel</button>
+            </li>
+          <?php endforeach; ?>
+
         </ul>
         <div class="question-actions">
           <button class="mdc-button mdc-button--unelevated question__save" data-mdc-auto-init="MDCRipple"
