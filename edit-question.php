@@ -303,7 +303,7 @@
           <?php endforeach; ?>
 
           <li class="question-option-item">
-            <button type="button" data-mdc-auto-init="MDCRipple
+            <button type="button" data-mdc-auto-init="MDCRipple"
               class="mdc-button mdc-button--outlined material-icons question-option-item__add"
               onclick="addOption(event)"
               >add</button>
