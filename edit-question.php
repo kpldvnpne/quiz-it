@@ -1,6 +1,7 @@
 <?php
   
   require 'data-provider.php';
+  require 'constants.php';
 
   // TODO: make edit.php not accessible when no id is given
   $quizId = isset($_GET["quizId"]) ? $_GET["quizId"] : 1;
@@ -194,7 +195,7 @@
       justify-content: flex-end;
     }
 
-    .question-actions>button {
+    .question-actions > * {
       margin-left: 10px;
     }
 
@@ -281,7 +282,7 @@
 
               <div class="mdc-form-field" data-mdc-auto-init="MDCFormField">
                 <div class="mdc-checkbox" data-mdc-auto-init="MDCCheckbox">
-                  <input type="checkbox" class="mdc-checkbox__native-control" />
+                  <input type="checkbox" class="mdc-checkbox__native-control" name="correctOptions[]" />
                   <div class="mdc-checkbox__background">
                     <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                       <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
@@ -292,10 +293,10 @@
               </div>
 
               <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
-                <input type="text" id="my-text-field" class="mdc-text-field__input" oninput="makeSaveAccessible()" value="<?=$option?>">
+                <input type="text" id="my-text-field" class="mdc-text-field__input" name="options[]" oninput="makeSaveAccessible()" value="<?=$option?>">
                 <div class="mdc-line-ripple"></div>
               </div>
-              <button class="mdc-icon-button material-icons" onclick="removeOption(event)">delete</button>
+              <button type="button" class="mdc-icon-button material-icons" onclick="removeOption(event)">delete</button>
             </li>
           <?php endforeach; ?>
 
@@ -310,8 +311,9 @@
         <div class="question-actions">
           <button class="mdc-button mdc-button--unelevated question__save" data-mdc-auto-init="MDCRipple"
             disabled>Save</button>
-          <button class="mdc-button mdc-button--unelevated question__cancel"
-            data-mdc-auto-init="MDCRipple">Cancel</button>
+          <a href="<?php echo BASE_URL . '/edit.php?' . http_build_query(['quizId' => $quizId])?>" 
+            class="mdc-button mdc-button--unelevated question__cancel"
+            data-mdc-auto-init="MDCRipple">Cancel</a>
         </div>
       </div>
     </main>
