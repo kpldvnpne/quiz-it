@@ -1,6 +1,6 @@
 <?php
 
-require 'database.php';
+require_once 'database.php';
 
 class QuizDataEditor {
   
@@ -20,6 +20,24 @@ class QuizDataEditor {
     } else {
       $pdo->rollBack();
       $succeeded = false;
+    }
+
+    Database::disconnect();
+    return $succeeded;
+  }
+
+  public static function deleteQuestion($questionId) {
+    $succeeded = false;
+    $pdo = Database::connect();
+
+    $pdo->beginTransaction();
+    if (self::deleteAllQuestionOptions($questionId)
+        && self::deleteQuestionEntry($questionId)) {
+      $pdo->commit();
+      $succeeded = true;
+    } else {
+      $pdo->rollBack();
+      $succeeded= false;
     }
 
     Database::disconnect();
@@ -77,6 +95,27 @@ class QuizDataEditor {
     return $succeeded;
   }
 
+  private static function deleteQuestionEntry($questionId) {
+    $succeeded = false;
+    $pdo = Database::connect();
+
+    $stmt = '
+    DELETE FROM
+      question
+    WHERE
+      id=?
+    ';
+
+    $stmt = $pdo->prepare($stmt);
+
+    if ($stmt->execute([$questionId])) {
+      $succeeded = true;
+    }
+
+    // Database::disconnect();
+    return $succeeded;
+  }
+
   private static function deleteAllQuestionOptions($questionId) {
     $succeeded = false;
     $pdo = Database::connect();
@@ -92,8 +131,6 @@ class QuizDataEditor {
 
     if ($stmt->execute([$questionId])) {
       $succeeded = true;
-    } else {
-      echo 'Delete error' . $pdo->errorCode();
     }
 
     // Database::disconnect();

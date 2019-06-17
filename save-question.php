@@ -1,10 +1,9 @@
 <?php
+  require 'data-editor.php';
 
   function redirect($url, $statusCode = 303) {
     header('Location: ' . $url, true, $statusCode);
   }
-
-  require 'data-editor.php';
 
   $quizId = isset($_GET["quizId"]) ? $_GET["quizId"] : 1;
   $questionId = (int) (isset($_GET['questionId']) ? $_GET['questionId']: 0);
