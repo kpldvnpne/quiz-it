@@ -87,13 +87,13 @@ class QuizDataProvider {
 					'questionTitle' => $question['questionTitle'],
 					'questionType' => $question['questionType'],
 					'options' => [],
-					'correctOptionsIndex' => []
+					'correctOptionIndices' => []
 				];
 			}
 			
 			$questions[$q_i]['options'][] = $question['option'];
 			if ($question['isCorrect']) {
-				$questions[$q_i]['correctOptionsIndex'][] = ++$o_i;
+				$questions[$q_i]['correctOptionIndices'][] = ++$o_i;
 			}
 		}
 
