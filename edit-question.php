@@ -286,6 +286,13 @@
             </li>
           <?php endforeach; ?>
 
+          <li class="question-option-item">
+            <button data-mdc-auto-init="MDCRipple" 
+              class="mdc-button mdc-button--outlined material-icons question-option-item__add"
+              onclick="addOption(event)"
+              >add</button>
+          </li>
+
         </ul>
         <div class="question-actions">
           <button class="mdc-button mdc-button--unelevated question__save" data-mdc-auto-init="MDCRipple"
