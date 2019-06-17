@@ -323,12 +323,24 @@
 
     function addOption(event) {
       const optionTemplate = `
-        <li class="question-option-item" tabindex="0">
+        <li class="question-option-item">
+          <div class="mdc-form-field" data-mdc-auto-init="MDCFormField">
+            <div class="mdc-checkbox" data-mdc-auto-init="MDCCheckbox">
+              <input type="checkbox" class="mdc-checkbox__native-control" />
+              <div class="mdc-checkbox__background">
+                <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                  <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                </svg>
+                <div class="mdc-checkbox__mixedmark"></div>
+              </div>
+            </div>
+          </div>
+          
           <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
             <input type="text" id="my-text-field" class="mdc-text-field__input" oninput="makeSaveAccessible()">
             <div class="mdc-line-ripple"></div>
           </div>
-          <button class="mdc-icon-button material-icons" onclick="removeOption(event)">cancel</button>
+          <button class="mdc-icon-button material-icons" onclick="removeOption(event)">delete</button>
         </li>
       `;
       let newOptionElem = createElementFromHtml(optionTemplate);
