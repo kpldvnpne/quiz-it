@@ -313,8 +313,8 @@
           
         </div>
 
-        <h1 class="quiz-description__title" contenteditable="true">How well do you know your ballons?</h1>
-        <p class="quiz-description__details" contenteditable="true">A short quiz to test how well you know air balloons</h3>
+        <h1 class="quiz-description__title" contenteditable="true"> <?=$quizData['quizTitle']?> </h1>
+        <p class="quiz-description__details" contenteditable="true"> <?=$quizData['quizDetails']?> </h3>
       </div>
 
       <footer class="footer">
