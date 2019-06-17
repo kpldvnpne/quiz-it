@@ -1,3 +1,27 @@
+<?php
+  
+  require 'data-provider.php';
+
+  // TODO: make edit.php not accessible when no id is given
+  $quizId = isset($_GET["quizId"]) ? $_GET["quizId"] : 1;
+  $questionId = isset($_GET["questionId"]) ?: 1;
+
+  $quizData = QuizDataProvider::getAllQuizData($quizId);
+
+  $questionData = array_filter(
+    $quizData['questions'], 
+    function ($question) use ($questionId) {
+      return $question['questionId'] == $questionId;
+    }
+  );
+  if ($questionData !== null && count($questionData) > 0) {
+    $questionData = $questionData[0];
+  }
+
+  // TODO: throw error when no questionData found and show the error page, which displays automatically on based on throw statement
+
+?>
+
 <html>
 <head>
   <!-- CSS and JS for making MDC (Material Design Components) work -->
@@ -116,6 +140,7 @@
       background-color: rgb(255, 255, 255, 0.5);
       /* opacity: 0.5; */
       text-shadow: none;
+      text-transform: uppercase;
     }
 
     .quiz-description, .footer {
@@ -222,15 +247,18 @@
 
       <div class="quiz-description">
         <div class="mdc-chip-set hashtag-set">
-          <div class="mdc-chip hashtag">
-            <div class="mdc-chip__text">#CULTURE</div>
-          </div>
-          <div class="mdc-chip hashtag">
-            <div class="mdc-chip__text">#MALAYSIA</div>
-          </div>
+
+          <?php foreach ($quizData['tags'] as $tag): ?>
+            <div class="mdc-chip hashtag">
+              <div class="mdc-chip__text"> 
+                #<?=$tag?> 
+              </div>
+            </div>
+          <?php endforeach; ?>
+
         </div>
-        <h1>How well do you know your ballons?</h1>
-        <p>A short quiz to test how well you know air balloons</h3>
+        <h1><?=$quizData['quizTitle']?></h1>
+        <p><?=$quizData['quizDetails']?></h3>
       </div>
 
       <footer class="footer">
