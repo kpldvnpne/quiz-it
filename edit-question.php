@@ -183,17 +183,6 @@
       flex: auto;
     }
 
-    .question-option-item-cancel {
-      position: absolute;
-      left: 100%;
-      display: none;
-    }
-
-    .question-option-item:hover .question-option-item-cancel,
-    .qeustion-option-item:focus .question-option-item-cancel {
-      display: initial;
-    }
-
     .question-option-item__add {
       width: 100%;
       border-style: dashed;
@@ -289,11 +278,24 @@
 
           <?php foreach($questionData['options'] as $optionIndex => $option): ?>
             <li class="question-option-item" <?=$optionIndex === 0 ? 'tabindex="0"': '';?> >
+
+              <div class="mdc-form-field" data-mdc-auto-init="MDCFormField">
+                <div class="mdc-checkbox" data-mdc-auto-init="MDCCheckbox">
+                  <input type="checkbox" class="mdc-checkbox__native-control" />
+                  <div class="mdc-checkbox__background">
+                    <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                      <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                    </svg>
+                    <div class="mdc-checkbox__mixedmark"></div>
+                  </div>
+                </div>
+              </div>
+
               <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
                 <input type="text" id="my-text-field" class="mdc-text-field__input" oninput="makeSaveAccessible()" value="<?=$option?>">
                 <div class="mdc-line-ripple"></div>
               </div>
-              <button class="mdc-icon-button material-icons question-option-item-cancel" onclick="removeOption(event)">cancel</button>
+              <button class="mdc-icon-button material-icons" onclick="removeOption(event)">delete</button>
             </li>
           <?php endforeach; ?>
 
@@ -326,7 +328,7 @@
             <input type="text" id="my-text-field" class="mdc-text-field__input" oninput="makeSaveAccessible()">
             <div class="mdc-line-ripple"></div>
           </div>
-          <button class="mdc-icon-button material-icons question-option-item-cancel" onclick="removeOption(event)">cancel</button>
+          <button class="mdc-icon-button material-icons" onclick="removeOption(event)">cancel</button>
         </li>
       `;
       let newOptionElem = createElementFromHtml(optionTemplate);
