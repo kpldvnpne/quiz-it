@@ -261,13 +261,13 @@
     </aside>
 
     <main class="partition-item partition-item-6" id="right-partition-item">
-      <form action="save-question.php" method="post">
+      <form action="save-question.php?<?php echo http_build_query(['quizId' => $quizId, 'questionIndex' => $questionIndex]) ?>" method="post">
 
       <div class="question">
         <label class="question__number">Question <?=$questionIndex + 1?></label>
         <h2>
           <div class="mdc-text-field mdc-text-field--textarea" data-mdc-auto-init="MDCTextField">
-            <textarea id="textarea" class="mdc-text-field__input question__title" rows="3" cols="40"><?=$questionData['questionTitle']?></textarea>
+            <textarea id="textarea" class="mdc-text-field__input question__title" name="questionTitle" rows="3" cols="40"><?=$questionData['questionTitle']?></textarea>
             <div class="mdc-notched-outline">
               <div class="mdc-notched-outline__leading"></div>
               <div class="mdc-notched-outline__notch">
@@ -284,7 +284,7 @@
 
               <div class="mdc-form-field" data-mdc-auto-init="MDCFormField">
                 <div class="mdc-checkbox" data-mdc-auto-init="MDCCheckbox">
-                  <input type="checkbox" class="mdc-checkbox__native-control" name="correctOptions[<?php echo $optionIndex?>]" onchange="makeSaveAccessible()" />
+                  <input type="checkbox" class="mdc-checkbox__native-control" name="options[<?php echo $optionIndex?>][isCorrect]" onchange="makeSaveAccessible()" />
                   <div class="mdc-checkbox__background">
                     <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                       <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
@@ -295,7 +295,7 @@
               </div>
 
               <div class="mdc-text-field"  data-mdc-auto-init="MDCTextField">
-                <input type="text" id="my-text-field" class="mdc-text-field__input" name="options[<?php echo $optionIndex?>]" oninput="makeSaveAccessible()" value="<?=$option?>">
+                <input type="text" id="my-text-field" class="mdc-text-field__input" name="options[<?php echo $optionIndex?>][value]" oninput="makeSaveAccessible()" value="<?=$option?>">
                 <div class="mdc-line-ripple"></div>
               </div>
               <button type="button" class="mdc-icon-button material-icons" onclick="removeOption(event)">delete</button>
@@ -332,7 +332,7 @@
         <li class="question-option-item">
           <div class="mdc-form-field" data-mdc-auto-init="MDCFormField">
             <div class="mdc-checkbox" data-mdc-auto-init="MDCCheckbox">
-              <input type="checkbox" class="mdc-checkbox__native-control" name="correctOptions[${countOptions}]" onchange="makeSaveAccessible()" />
+              <input type="checkbox" class="mdc-checkbox__native-control" name="options[${countOptions}][isCorrect]" onchange="makeSaveAccessible()" />
               <div class="mdc-checkbox__background">
                 <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                   <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
@@ -343,7 +343,7 @@
           </div>
           
           <div class="mdc-text-field" data-mdc-auto-init="MDCTextField">
-            <input type="text" id="my-text-field" class="mdc-text-field__input" name="options[${countOptions}]" oninput="makeSaveAccessible()">
+            <input type="text" id="my-text-field" class="mdc-text-field__input" name="options[${countOptions}][value]" oninput="makeSaveAccessible()">
             <div class="mdc-line-ripple"></div>
           </div>
           <button class="mdc-icon-button material-icons" onclick="removeOption(event)">delete</button>
