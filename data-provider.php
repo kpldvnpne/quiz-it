@@ -84,6 +84,7 @@ class QuizDataProvider {
 				$lastQuestionIndex = $question['questionId'];
 				$o_i = -1;
 				$questions[++$q_i] = [
+					'questionId' => $question['questionId'],
 					'questionTitle' => $question['questionTitle'],
 					'questionType' => $question['questionType'],
 					'options' => [],
@@ -100,4 +101,34 @@ class QuizDataProvider {
 		Database::disconnect();
 		return $questions;
 	}
+
+	// public static function getQuizQuestion($questionId) {
+	// 	$pdo = Database::connect();
+	// 	$stmt = '
+	// 	SELECT 
+	// 		q.id as questionId,
+	// 		q.title as questionTitle,
+	// 		q.type as questionType,
+	// 		c.value as option,
+	// 		c.correct as isCorrect
+	// 	FROM
+	// 		question as q
+	// 	LEFT JOIN
+	// 		choice as c
+	// 	ON
+	// 		q.id = c.question_id
+	// 	WHERE
+	// 		q.id = ?
+	// 	ORDER BY 
+	// 		c.id;
+	// 	';
+
+	// 	$stmt = $pdo->prepare($stmt);
+	// 	$stmt->execute([$questionId]);
+
+	// 	$question = null;
+
+	// 	Database::disconnect();
+	// 	return $question;
+	// }
 }
