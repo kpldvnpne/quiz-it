@@ -88,7 +88,6 @@ class QuizDataEditor {
       question_id=?
     ';
 
-    echo 'Here';
     $stmt = $pdo->prepare($stmt);
 
     if ($stmt->execute([$questionId])) {

@@ -7,12 +7,10 @@
 
   $questionData = $_POST;
 
-  print_r($questionData);
-
   if (QuizDataEditor::updateQuestion($questionId, $questionData)) {
-    echo "Successfully edited title";
+    echo "Successfully edited question";
   } else {
-    echo "Could not edit title";
+    echo "Could not edit question";
   }
 
   // TODO: redirect to edit.php or edit-question.php according to error or not
