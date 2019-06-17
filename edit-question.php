@@ -183,6 +183,17 @@
       flex: auto;
     }
 
+    .question-option-item-cancel {
+      position: absolute;
+      left: 100%;
+      display: none;
+    }
+
+    .question-option-item:hover .question-option-item-cancel,
+    .qeustion-option-item:focus .question-option-item-cancel {
+      display: initial;
+    }
+
     .question-option-item__add {
       width: 100%;
       border-style: dashed;
@@ -282,7 +293,7 @@
                 <input type="text" id="my-text-field" class="mdc-text-field__input" oninput="makeSaveAccessible()" value="<?=$option?>">
                 <div class="mdc-line-ripple"></div>
               </div>
-              <button class="mdc-icon-button material-icons" onclick="removeOption(event)">cancel</button>
+              <button class="mdc-icon-button material-icons question-option-item-cancel" onclick="removeOption(event)">cancel</button>
             </li>
           <?php endforeach; ?>
 
@@ -315,7 +326,7 @@
             <input type="text" id="my-text-field" class="mdc-text-field__input" oninput="makeSaveAccessible()">
             <div class="mdc-line-ripple"></div>
           </div>
-          <button class="mdc-icon-button material-icons" onclick="removeOption(event)">cancel</button>
+          <button class="mdc-icon-button material-icons question-option-item-cancel" onclick="removeOption(event)">cancel</button>
         </li>
       `;
       let newOptionElem = createElementFromHtml(optionTemplate);
