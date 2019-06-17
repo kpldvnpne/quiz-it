@@ -1,3 +1,12 @@
+<?php
+  require 'data-provider.php';
+
+  // TODO: make edit.php not accessible when no id is given
+  $quizId = isset($_GET["quizID"]) ? $_GET["quizId"] : 1;
+
+  $quizData = QuizDataProvider::getAllQuizData($quizId);
+?>
+
 <html>
 <head>
   <!-- CSS and JS for making MDC (Material Design Components) work -->
@@ -134,6 +143,7 @@
     .hashtag.mdc-chip {
       background-color: rgb(255, 255, 255, 0.5);
       text-shadow: none;
+      text-transform: uppercase;
     }
 
     .hashtag--add {
@@ -148,6 +158,7 @@
     .hashtag--add__input {
       width: 0;
       color: transparent;
+      text-transform: initial;
 
       transition: width .1s ease-in;
     }
@@ -290,14 +301,16 @@
             <i class="material-icons mdc-chip__icon mdc-chip__icon--leading" role="button">add</i>
             <div class="mdc-chip__text hashtag--add__input" contenteditable="true" onkeydown="handleHashtagInputKeyDown(event)">New Hashtag</div>
           </div>
-          <div class="mdc-chip hashtag" tabindex="0">
-            <div class="mdc-chip__text">#CULTURE</div>
-            <i class="material-icons mdc-chip__icon mdc-chip__icon--trailing" role="button">cancel</i>
-          </div>
-          <div class="mdc-chip hashtag">
-            <div class="mdc-chip__text">#MALAYSIA</div>
-            <i class="material-icons mdc-chip__icon mdc-chip__icon--trailing" role="button">cancel</i>
-          </div>
+
+          <?php foreach ($quizData['tags'] as $tagIndex => $tag): ?>
+            <div class="mdc-chip hashtag" <?= $tagIndex === 0 ? 'tabindex="0"': ''; ?> >
+              <div class="mdc-chip__text">
+                # <?= $tag ?>
+              </div>
+              <i class="material-icons mdc-chip__icon mdc-chip__icon--trailing" role="button">cancel</i>
+            </div>
+          <?php endforeach; ?>
+          
         </div>
 
         <h1 class="quiz-description__title" contenteditable="true">How well do you know your ballons?</h1>
