@@ -1,5 +1,6 @@
 <?php
   require 'data-provider.php';
+  require 'constants.php';
 
   // TODO: make edit.php not accessible when no id is given
   $quizId = isset($_GET["quidId"]) ? $_GET["quizId"] : 1;
@@ -345,8 +346,12 @@
       <?php foreach($quizData['questions'] as $questionIndex => $question): ?>
         <div class="question">
           <div class="question-modify">
-            <button class="mdc-button material-icons question-modify__button" data-mdc-auto-init="MDCRipple">edit</button>
-            <button class="mdc-button material-icons question-modify__button" data-mdc-auto-init="MDCRipple">delete</button>
+            <a href="<?php echo BASE_URL . '/edit-question.php?' . http_build_query(['quizId' => $quizId, 'questionIndex' => $questionIndex]); ?>">
+              <button class="mdc-button material-icons question-modify__button" data-mdc-auto-init="MDCRipple">edit</button>
+            </a>
+            <a href="<?php echo BASE_URL . '/delete-question.php?' . http_build_query(['questionIndex' => $questionIndex]); ?>">
+              <button class="mdc-button material-icons question-modify__button" data-mdc-auto-init="MDCRipple">delete</button>
+            </a>
           </div>
           <label class="question__number">Question <?=$questionIndex + 1?></label>
           <h2 class="question__title"><?=$question['questionTitle']?></h2>
