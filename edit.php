@@ -272,9 +272,9 @@
 </head>
 <body>
 
-  <button class="mdc-fab app-fab--absolute" data-mdc-auto-init="MDCRipple">
+  <a href="create-question.php" class="mdc-fab app-fab--absolute" data-mdc-auto-init="MDCRipple">
     <span class="mdc-fab__icon material-icons">add</span>
-  </button>
+  </a>
 
   <div class="partition">
     <aside class="partition-item partition-item-4" id="left-partition-item">      
