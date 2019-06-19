@@ -327,11 +327,11 @@
         <p>OCT 23, 2018</p>
       </footer>
 
-      <form action="save-quiz-details.php" method="POST">
-        <input type="text" id="quiz-title" style='display: none;' name="quiz-title" />
-        <input type="text" id="quiz-details" style='display: none;' name="quiz-details" />
-        <input type="file" id="quiz-image" style='display: none' name="quiz-image" accept="image/*" onchange="handleImageChange(event)" />
-        <input type="text" id="quiz-tags" style='display: none' name="quiz-tags">
+      <form action="save-quiz-details.php?<?php echo http_build_query(['quizId' => $_GET['quizId']]);?>" method="POST">
+        <input type="text" id="quiz-title" style='display: none;' name="quizTitle" />
+        <input type="text" id="quiz-details" style='display: none;' name="quizDetails" />
+        <input type="file" id="quiz-image" style='display: none' name="quizImage" accept="image/*" onchange="handleImageChange(event)" />
+        <input type="text" id="quiz-tags" style='display: none' name="quizTags">
         <div class="quiz-description-form__actions hidden">
           <button type="submit" id="quiz-description-form__submit" class="mdc-button mdc-button--unelevated"
             data-mdc-auto-init="MDCRipple">Submit</button>

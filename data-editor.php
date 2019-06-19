@@ -8,6 +8,99 @@ class QuizDataEditor {
     die('Init function not allowed');
   }
 
+  public static function updateQuiz($quizId, $quizData) {
+    $succeeded = false;
+    $pdo = Database::connect();
+
+    $pdo->beginTransaction();
+    if (self::updateQuizDescription($quizId, $quizData)
+        && self::updateQuizTags($quizId, $quizData['quizTags'])) {
+      $pdo->commit();
+      $succeeded = true;
+    } else {
+      $pdo->rollBack();
+      $succeeded = false;
+    }
+
+    Database::disconnect();
+    return $succeeded;
+  }
+
+  private static function updateQuizDescription($quizId, $quizData) {
+    $succeeded = false;
+    $pdo = Database::connect();
+
+    $stmt = '
+    UPDATE
+      quiz
+    SET
+      title = :title,
+      details = :details
+    WHERE
+      id = :id
+    ;
+    ';
+
+    $stmt = $pdo->prepare($stmt);
+    if ($stmt->execute(['id' => $quizId, 'title' => $quizData['quizTitle'], 'details' => $quizData['quizDetails']])) {
+      $succeeded = true;
+    }
+
+    // Database::disconenct();
+    return $succeeded;
+  }
+
+  private static function updateQuizTags($quizId, $quizTags) {
+    if (!self::deleteAllQuizTags($quizId)) {
+      return false;
+    }
+
+    $succeeded = true;
+    $pdo = Database::connect();
+
+    foreach($quizTags as $tag) {
+      $stmt1 = 'SELECT id FROM hashtag WHERE tag = :tag;';
+      $stmt1 = $pdo->prepare($stmt1);
+      if ($stmt1->execute(['tag' => $tag]) && $stmt1->rowCount() > 0) {
+        $hashtagId = $stmt1->fetch()['id'];
+      } else {
+        $stmt1 = 'INSERT INTO hashtag(tag) VALUES (:tag);';
+        $stmt1 = $pdo->prepare($stmt1);
+
+        if ($stmt1->execute(['tag' => $tag])) {
+          $hashtagId = $pdo->lastInsertId();
+        } else {
+          $succeeded = false;
+          break;
+        }
+      }
+
+      $stmt2 = 'INSERT INTO quiz_hashtag VALUES (:quizId, :hashtagId);';
+      $stmt2 = $pdo->prepare($stmt2);
+      if (!$stmt2->execute(['quizId' => $quizId, 'hashtagId' => $hashtagId])) {
+        $succeeded = false;
+        break;
+      }
+    }
+
+    // Database::disconnect();
+    return $succeeded;
+  }
+
+  private static function deleteAllQuizTags($quizId) {
+    $succeeded = false;
+    $pdo = Database::connect();
+
+    $stmt = 'DELETE FROM quiz_hashtag WHERE quiz_id = ?;';
+    $stmt = $pdo->prepare($stmt);
+    if ($stmt->execute([$quizId])) {
+      $succeeded = true;
+    }
+
+    // Database::disconnect();
+    return $succeeded;
+  }
+
   public static function updateQuestion($quizId, $questionId, $questionData) {
     $succeeded = false;
     $pdo = Database::connect();
@@ -88,7 +181,7 @@ class QuizDataEditor {
       return false;
     }
 
-    $succeeded = false;
+    $succeeded = true;
     $pdo = Database::connect();
 
     foreach ($options as $option) {
@@ -102,8 +195,9 @@ class QuizDataEditor {
 
       $stmt = $pdo->prepare($stmt);
 
-      if ($stmt->execute(['value'=> $option['value'], 'correct' => self::getChoice($option), 'questionId' => $questionId])) {
-        $succeeded = true;
+      if (!$stmt->execute(['value'=> $option['value'], 'correct' => self::getChoice($option), 'questionId' => $questionId])) {
+        $succeeded = false;
+        break;
       }
     }
 

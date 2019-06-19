@@ -1,6 +1,7 @@
 <?php 
 
 require('data-editor.php');
+require('utils.php');
 
 function preprocess(&$quizData) {
   $quizData['quizTags'] = array_map(function ($tag) {
@@ -17,7 +18,8 @@ $quizData = $_POST;
 preprocess($quizData);
 
 if (QuizDataEditor::updateQuiz($quizId, $quizData)) {
-  echo 'Quiz successfully edited';
+  redirect('edit.php?' . http_build_query(['quizId' => $_GET['quizId']]), 301);
 } else {
-  echo 'Quiz edit failed';
+  // TODO: make error.php more informational
+  redirect('error.php');
 }
