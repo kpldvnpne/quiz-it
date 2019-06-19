@@ -272,7 +272,7 @@
 </head>
 <body>
 
-  <a href="create-question.php" class="mdc-fab app-fab--absolute" data-mdc-auto-init="MDCRipple">
+  <a href="edit-question.php?<?php echo http_build_query(['new' => 'true', 'quizId' => $quizId, 'questionIndex' => count($quizData['questions'])]); ?>" class="mdc-fab app-fab--absolute" data-mdc-auto-init="MDCRipple">
     <span class="mdc-fab__icon material-icons">add</span>
   </a>
 

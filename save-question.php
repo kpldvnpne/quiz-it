@@ -10,7 +10,7 @@
 
   $questionData = $_POST;
 
-  if (QuizDataEditor::updateQuestion($questionId, $questionData)) {
+  if (QuizDataEditor::updateQuestion($quizId, $questionId, $questionData)) {
     redirect('edit.php?' . http_build_query(['quizId' => $_GET['quizId']]), 301);
   } else {
     redirect('edit-question.php?' . http_build_query($_GET), 301);

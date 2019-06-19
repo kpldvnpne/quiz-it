@@ -8,12 +8,12 @@ class QuizDataEditor {
     die('Init function not allowed');
   }
 
-  public static function updateQuestion($questionId, $questionData) {
+  public static function updateQuestion($quizId, $questionId, $questionData) {
     $succeeded = false;
     $pdo = Database::connect();
 
     $pdo->beginTransaction();
-    if (self::updateQuestionTitle($questionId, $questionData['questionTitle'])
+    if (self::updateQuestionTitle($quizId, $questionId, $questionData['questionTitle'])
         && self::updateQuestionOptions($questionId, $questionData['options'])) {
       $pdo->commit();
       $succeeded = true;
@@ -44,7 +44,7 @@ class QuizDataEditor {
     return $succeeded;
   }
 
-  private static function updateQuestionTitle($questionId, $questionTitle) {
+  private static function updateQuestionTitle($quizId, &$questionId, $questionTitle) {
     $succeeded = false;
     $pdo = Database::connect();
 
@@ -59,8 +59,24 @@ class QuizDataEditor {
 
     $stmt = $pdo->prepare($stmt);
 
-    if ($stmt->execute([$questionTitle, $questionId])) {
+    if ($stmt->execute([$questionTitle, $questionId]) && $stmt->rowCount() === 1) {
       $succeeded = true;
+    } else {
+      $stmt = '
+      INSERT INTO
+        question(title, quiz_id)
+      VALUES
+        (?, ?)
+      ;
+      ';
+
+      $stmt = $pdo->prepare($stmt);
+      if ($stmt->execute([$questionTitle, $quizId])) {
+        $succeeded = true;
+        $questionId = $pdo->lastInsertId();
+      } else {
+        $succeeded = false;
+      }
     }
 
     // Database::disconnect();

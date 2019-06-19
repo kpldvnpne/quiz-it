@@ -3,14 +3,18 @@
   require 'data-provider.php';
   require 'constants.php';
 
-  // TODO: make edit.php not accessible when no id is given
   $quizId = isset($_GET["quizId"]) ? $_GET["quizId"] : 1;
-  $questionIndex = (int) (isset($_GET['questionIndex']) ? $_GET['questionIndex']: 0);
-  $questionId = (int) (isset($_GET['questionId']) ? $_GET['questionId']: 0);
-
   $quizData = QuizDataProvider::getAllQuizData($quizId);
+  $questionIndex = (int) (isset($_GET['questionIndex']) ? $_GET['questionIndex']: 0);
 
-  $questionData = $quizData['questions'][$questionIndex];
+  if (isset($_GET['new']) && $_GET['new'] == true) {
+    $questionId = -10;
+    $questionData = ['questionTitle' => '', 'options' => [], 'correctOptionIndices' => []];
+  } else {
+    // TODO: make edit.php not accessible when no id is given
+    $questionId = (int) (isset($_GET['questionId']) ? $_GET['questionId']: 0);
+    $questionData = $quizData['questions'][$questionIndex];
+  }
 
   // TODO: throw error when no questionData found and show the error page, which displays automatically on based on throw statement
 

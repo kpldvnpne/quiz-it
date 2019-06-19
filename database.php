@@ -15,7 +15,7 @@ class Database {
 			// One connection through whole application
 			if ( null == self::$cont ) {     
 				try	{
-					self::$cont =  new PDO( "mysql:host=".self::$dbHost.";"."dbname=".self::$dbName, self::$dbUsername, self::$dbUserPassword); 
+					self::$cont =  new PDO( "mysql:host=".self::$dbHost.";"."dbname=".self::$dbName, self::$dbUsername, self::$dbUserPassword, array(PDO::MYSQL_ATTR_FOUND_ROWS => true)); 
 				}
 				catch(PDOException $e) {
 					die($e->getMessage()); 
