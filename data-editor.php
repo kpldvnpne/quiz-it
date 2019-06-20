@@ -30,19 +30,33 @@ class QuizDataEditor {
     $succeeded = false;
     $pdo = Database::connect();
 
-    $stmt = '
-    UPDATE
-      quiz
-    SET
-      title = :title,
-      details = :details
-    WHERE
-      id = :id
-    ;
-    ';
+    $params = ['id' => $quizId, 'title' => $quizData['quizTitle'], 'details' => $quizData['quizDetails']];
+    if ($quizData['quizImageFilename']) {
+      $stmt = '
+      UPDATE
+        quiz
+      SET
+        title = :title,
+        details = :details,
+        image_filename = :quizImageFilename
+      WHERE
+        id = :id;'
+      ;
+      $params['quizImageFilename'] = $quizData['quizImageFilename'];
+    } else {
+      $stmt = '
+      UPDATE
+        quiz
+      SET
+        title = :title,
+        details = :details
+      WHERE
+        id = :id;'
+      ;
+    }
 
     $stmt = $pdo->prepare($stmt);
-    if ($stmt->execute(['id' => $quizId, 'title' => $quizData['quizTitle'], 'details' => $quizData['quizDetails']])) {
+    if ($stmt->execute($params)) {
       $succeeded = true;
     }
 
