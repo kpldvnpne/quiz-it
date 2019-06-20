@@ -22,10 +22,11 @@ function saveQuizImageFile(&$quizData) {
     return false;
   }
 
-  $targetDir = __DIR__ . "/images/";
+  $targetDir = "/images/";
   $filename = basename($_FILES['quizImage']['name']);
   $extName = pathinfo($filename, PATHINFO_EXTENSION);
   $quizData['quizImageFilename'] = $filename ? $targetDir . random_filename(20, $targetDir, $extName) : '';
+  $quizImageFilename = __DIR__ . $quizData['quizImageFilename'];
 
   if (!$filename) {
     return true;  // as no file is okay, but incorrect file is not okay
@@ -40,7 +41,7 @@ function saveQuizImageFile(&$quizData) {
     return false;
   }
 
-  if (!move_uploaded_file($_FILES['quizImage']['tmp_name'], $quizData['quizImageFilename'])) {
+  if (!move_uploaded_file($_FILES['quizImage']['tmp_name'], $quizImageFilename)) {
     return false;
   }
 
@@ -53,7 +54,7 @@ $quizData = $_POST;
 if (preprocess($quizData) && QuizDataEditor::updateQuiz($quizId, $quizData)) {
   redirect('edit.php?' . http_build_query(['quizId' => $_GET['quizId']]), 301);
 } else {
-  unlink($quizData['quizImageFilename']);
+  unlink($quizImageFilename);
   // TODO: make error.php more informational
   die('Save quiz details failed');
   redirect('error.php');
