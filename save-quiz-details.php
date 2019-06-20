@@ -54,7 +54,8 @@ $quizData = $_POST;
 if (preprocess($quizData) && QuizDataEditor::updateQuiz($quizId, $quizData)) {
   redirect('edit.php?' . http_build_query(['quizId' => $_GET['quizId']]), 301);
 } else {
-  unlink($quizImageFilename);
+  if (isset($quizImageFilename) && file_exists($quizImageFilename))
+    unlink($quizImageFilename);
   // TODO: make error.php more informational
   die('Save quiz details failed');
   redirect('error.php');
