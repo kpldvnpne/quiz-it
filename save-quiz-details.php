@@ -22,11 +22,11 @@ function saveQuizImageFile(&$quizData) {
     return false;
   }
 
-  $targetDir = "/images/";
+  $targetDir = "./images/";
   $filename = basename($_FILES['quizImage']['name']);
   $extName = pathinfo($filename, PATHINFO_EXTENSION);
   $quizData['quizImageFilename'] = $filename ? $targetDir . random_filename(20, $targetDir, $extName) : '';
-  $quizImageFilename = __DIR__ . $quizData['quizImageFilename'];
+  $quizImageFilename = $quizData['quizImageFilename'];
 
   if (!$filename) {
     return true;  // as no file is okay, but incorrect file is not okay

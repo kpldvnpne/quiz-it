@@ -32,6 +32,9 @@ class QuizDataEditor {
 
     $params = ['id' => $quizId, 'title' => $quizData['quizTitle'], 'details' => $quizData['quizDetails']];
     if ($quizData['quizImageFilename']) {
+      if (!self::deleteQuizImage($quizId)) {
+        return false;
+      }
       $stmt = '
       UPDATE
         quiz
@@ -99,6 +102,21 @@ class QuizDataEditor {
 
     // Database::disconnect();
     return $succeeded;
+  }
+
+  private static function deleteQuizImage($quizId) {
+    $pdo = Database::connect();
+
+    $stmt = $pdo->prepare('SELECT image_filename as quizImageFilename FROM quiz WHERE id = :quizId;');
+    if ($stmt->execute(['quizId' => $quizId])) {
+      $filename = $stmt->fetch(PDO::FETCH_ASSOC)['quizImageFilename'];
+      if (file_exists($filename) && !unlink($filename)) {
+        return false;
+      }
+    } else {
+      return false;
+    }
+    return true;
   }
 
   private static function deleteAllQuizTags($quizId) {
