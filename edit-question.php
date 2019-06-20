@@ -260,8 +260,8 @@
       </div>
 
       <footer class="footer">
-        <strong>BY ISAAC NEWTON</strong>
-        <p>OCT 23, 2018</p>
+        <strong>BY KAPILDEV NEUPANE</strong>
+        <p>June 20, 2019</p>
       </footer>
     </aside>
 

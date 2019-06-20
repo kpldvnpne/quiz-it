@@ -323,8 +323,8 @@
       </div>
 
       <footer class="footer">
-        <strong>BY ISAAC NEWTON</strong>
-        <p>OCT 23, 2018</p>
+        <strong>BY KAPILDEV NEUPANE</strong>
+        <p>June 20, 2019</p>
       </footer>
 
       <form action="save-quiz-details.php?<?php echo http_build_query(['quizId' => $_GET['quizId']]);?>" method="POST" enctype="multipart/form-data">
