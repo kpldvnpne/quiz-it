@@ -327,7 +327,7 @@
         <p>OCT 23, 2018</p>
       </footer>
 
-      <form action="save-quiz-details.php?<?php echo http_build_query(['quizId' => $_GET['quizId']]);?>" method="POST">
+      <form action="save-quiz-details.php?<?php echo http_build_query(['quizId' => $_GET['quizId']]);?>" method="POST" enctype="multipart/form-data">
         <input type="text" id="quiz-title" style='display: none;' name="quizTitle" />
         <input type="text" id="quiz-details" style='display: none;' name="quizDetails" />
         <input type="file" id="quiz-image" style='display: none' name="quizImage" accept="image/*" onchange="handleImageChange(event)" />
