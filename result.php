@@ -35,6 +35,10 @@
   <!-- Roboto Font from Google -->
   <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab&display=swap" rel="stylesheet">
 
+  <!-- CSS and JS for Fontawesome -->
+  <link href="./fontawesome/css/all.css" rel="stylesheet">
+  <script src="./fontawesome/js/all.js"></script>
+
   <title>Quiz</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -142,6 +146,35 @@
       opacity: 0.5;
     }
 
+    /* Result section */
+    .result {
+      margin-top: 20%;
+      margin-left: 20%;
+      margin-bottom: 15%;
+      text-align: center;
+
+      color: rgb(85,88,95);
+    }
+
+    .result-medal {
+      color: rgb(59, 167, 213);
+      font-size: 30px;
+    }
+
+    .result-score {
+      font-size: 70px;
+      font-weight: 900;
+    }
+
+    .result-remark {
+      font-size: 40px;
+      font-weight: 400px;
+    }
+
+    .result-replay {
+      --mdc-theme-on-primary: black;
+    }
+
   </style>
 </head>
 <body>
@@ -192,11 +225,30 @@
     </aside>
 
     <main class="partition-item partition-item-6" id="right-partition-item">
-      <?php 
-        echo "<p>Your score is: {$score} %</p>";
-      ?>
+      <div class="result">
+        <p><i class="fas fa-medal result-medal"></i></p>
 
-      <button>Return</button>
+        <span class="result-score"><?php echo $score;?>%</span>
+        <br />
+        
+        <?php 
+          if ($score > 70) {
+            $remark = "Congratulations!";
+          } elseif ($score > 50) {
+            $remark = "Great!";
+          } elseif ($score > 40) {
+            $remark = "Good!";
+          } else {
+            $remark = "Better luck next time";
+          }
+        ?>
+
+        <span class="result-remark"><?php echo $remark; ?></span>
+        <p><?php echo "You got {$correctlyAnsweredQuestions} out of {$totalQuestions} questions";?></p>
+
+        <a href="index.php" class="mdc-button mdc-button--unelevated result-replay" data-mdc-auto-init="MDCRipple">Replay</a>
+      </div>
+      
     </main>
   </div> 
 
