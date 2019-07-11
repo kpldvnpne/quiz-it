@@ -77,7 +77,6 @@
     #left-partition-item {
       background-image: url("<?php echo $quizData['quizImageFilename'] ? $quizData['quizImageFilename'] : './assets/images/quiz-background-image-1.jpg'; ?>");
       background-size: cover;
-      background-position: 0 -100px;
 
       color: white;
     }
